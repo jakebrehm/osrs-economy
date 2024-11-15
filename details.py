@@ -188,7 +188,7 @@ def clean_item_details(item_details: dict) -> dict:
     }.get(item_details["members"], None)
 
     # Add the time that the item was updated
-    item_details["updated_at"] = dt.datetime.now().isoformat()
+    item_details["updated_at"] = dt.datetime.now(dt.timezone.utc).isoformat()
 
     # Return the cleaned item details
     return item_details
@@ -202,7 +202,7 @@ def save_item_details_to_json(
     """Saves the item details to a JSON file and returns the dictionary."""
 
     # Add the time that the data was updated
-    data["updated_at"] = dt.datetime.now().isoformat()
+    data["updated_at"] = dt.datetime.now(dt.timezone.utc).isoformat()
 
     # Sort the appropriate structures by ID
     data["invalid"] = sorted(data["invalid"])
