@@ -78,7 +78,8 @@ def get_all_item_details(
 ) -> dict:
     """Gets details for all tradeable items.
 
-    # TODO: Define arguments
+    Wait is the amount of time to wait between requests.
+    Chunk size is the number of items to fetch before saving intermittently.
     """
 
     # Determine which items are missing
@@ -92,6 +93,7 @@ def get_all_item_details(
         initial=len(existing_ids),
         desc="Fetching",
         unit="item",
+        leave=False,
     )
 
     # Continuously fetch missing item details until all items are fetched
@@ -118,7 +120,7 @@ def get_all_item_details(
             unsaved_count += 1
             if unsaved_count >= chunk_size:
                 unsaved_count = 0
-                tqdm.write("Writing unsaved chunk to JSON file...")
+                tqdm.write("Writing unsaved details to JSON file...")
                 save_item_details_to_json(item_details, filename)
             okay_to_proceed = wait_for_okay(wait)
         if not okay_to_proceed:
@@ -152,6 +154,8 @@ def clean_item_details(item_details: dict) -> dict:
 
     # Define a list of undesired keys
     undesired_keys = [
+        "icon",
+        "icon_large",
         "type",
         "typeIcon",
         "current",
@@ -168,7 +172,11 @@ def clean_item_details(item_details: dict) -> dict:
         except KeyError:
             pass
 
-    # TODO: Convert boolean values
+    # Convert boolean values
+    item_details["members"] = {
+        "true": True,
+        "false": False,
+    }.get(item_details["members"], None)
 
     # Add the time that the item was updated
     item_details["updated_at"] = dt.datetime.now().isoformat()
@@ -181,6 +189,7 @@ def save_item_details_to_json(
     item_details: dict,
     filename: str,
     indent: int = 4,
+    sort_by_id: bool = True,
 ) -> dict:
     """Saves the item details to a JSON file and returns the dictionary."""
 
@@ -193,6 +202,10 @@ def save_item_details_to_json(
     # Save the data to a JSON file and return
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=indent)
+
+    # Sort the items by ID if requested and return
+    if sort_by_id:
+        data["items"] = dict(sorted(data["items"].items(), key=lambda i: i[1]["id"]))
     return data
 
 
