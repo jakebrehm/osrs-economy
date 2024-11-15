@@ -1,0 +1,219 @@
+"""
+Generates a JSON file with all tradeable items in the game.
+"""
+
+import datetime as dt
+import json
+import time
+
+import requests
+from tqdm import tqdm
+
+# Define constants
+USER_AGENT = "OSRS Economy Tracker - Personal Project (jake.m.brehm@gmail.com)"
+TIMEOUT = 10  # seconds
+
+# Define API URLs
+BASE_URL_WIKI = "https://prices.runescape.wiki/api/v1/osrs/latest"
+BASE_URL_DETAIL = (
+    "https://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json"
+)
+
+
+def get_item_details_from_json(filename: str) -> dict:
+    """Gets the details for all tradeable items from a JSON file."""
+    try:
+        with open(filename, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data["items"]
+    except FileNotFoundError:
+        print(f"Error occurred while opening JSON file '{filename}'.")
+        return {}
+    except json.JSONDecodeError:
+        print(f"Error occurred while decoding JSON file '{filename}'.")
+        return {}
+
+
+def get_item_ids() -> list[int]:
+    """Gets a list of IDs for all tradeable items in the game."""
+
+    try:
+        response = requests.get(
+            url=BASE_URL_WIKI,
+            headers={"User-Agent": USER_AGENT},
+            timeout=TIMEOUT,
+        )
+    except requests.exceptions.RequestException:
+        print("Error occurred while fetching item IDs.")
+        return []
+    return list(int(item_id) for item_id in response.json()["data"].keys())
+
+
+def get_item_details_from_id(item_id: int, raw: bool = False) -> dict:
+    """Gets the details for a specific item ID.
+
+    Will returned a dictionary with the item details that is cleaned by default.
+    When the dictionary is cleaned, trade information is removed. To disable
+    cleaning, set the `raw` parameter to `True`.
+
+    Will throw an exception if the request fails.
+    """
+
+    response = requests.get(
+        url=BASE_URL_DETAIL,
+        params={"item": item_id},
+        headers={"User-Agent": USER_AGENT},
+        timeout=TIMEOUT,
+    )
+    response.raise_for_status()
+    result = response.json()["item"]
+    return result if raw else clean_item_details(result)
+
+
+def get_all_item_details(
+    item_details: dict,
+    filename: str,
+    wait_after_success: float = 5.0,
+    wait_after_failure: float = 60.0 * 10,
+    max_failures: int = 5,
+) -> dict:
+    """Gets details for all tradeable items.
+
+    # TODO: Define arguments
+    """
+
+    # Determine which items are missing
+    all_ids = get_item_ids()
+    existing_ids = [int(item_id) for item_id in item_details]
+    missing_ids = list(set(all_ids) - set(existing_ids))
+
+    # Initialize the progress bar
+    tqdm_bar = tqdm(
+        total=len(all_ids),
+        initial=len(existing_ids),
+        desc="Fetching item details",
+        unit="item",
+    )
+
+    # Continuously fetch missing item details until all items are fetched
+    okay_to_proceed = True
+    failures = 0
+    max_length = len(str(max(missing_ids)))
+    # NOTE: Can probably remove outer loop layer with >5s wait
+    while okay_to_proceed and missing_ids and failures < max_failures:
+        for missing_id in missing_ids:
+            try:
+                missing_details = get_item_details_from_id(missing_id)
+            except requests.exceptions.RequestException:
+                tqdm_bar.set_description("Skipping...")
+                tqdm.write(
+                    f"Error occurred while fetching details for ID {missing_id}."
+                )
+                # Sleep to avoid rate limiting
+                time.sleep(wait_after_success)
+                # Continue to next item
+                continue
+            except json.JSONDecodeError:
+                failures += 1
+                tqdm_bar.set_description("Waiting...")
+                tqdm.write(
+                    f"Sequential failure {failures} of {max_failures} occurred "
+                    f"while fetching details for ID {missing_id}."
+                )
+                resume_estimate = (
+                    dt.datetime.now() + dt.timedelta(seconds=wait_after_failure)
+                ).strftime("%Y-%m-%d %H:%M:%S")
+                tqdm.write(
+                    f"Waiting {wait_after_failure} seconds... "
+                    f"resuming at approximately {resume_estimate}."
+                )
+                # Sleep to avoid rate limiting
+                time.sleep(wait_after_failure)
+                break
+            except KeyboardInterrupt:
+                okay_to_proceed = False
+                tqdm_bar.set_description("Stopping...")
+                tqdm.write("Stopping fetch...")
+                break
+            else:
+                item_details[missing_id] = missing_details
+                tqdm_bar.set_description("Fetching...")
+                tqdm_bar.update(1)
+                tqdm.write(f"{missing_id:>{max_length}}: {missing_details['name']}")
+                # Reset failure counter
+                failures = 0
+                # Sleep to avoid rate limiting
+                time.sleep(wait_after_success)
+        # Save the merged item details to a JSON file intermittently
+        save_item_details_to_json(item_details, filename)
+        # Update the existing and missing item IDs
+        existing_ids = [int(item_id) for item_id in item_details]
+        missing_ids = list(set(all_ids) - set(existing_ids))
+    tqdm_bar.close()
+    return item_details
+
+
+def clean_item_details(item_details: dict) -> dict:
+    """Cleans the item details dictionary.
+
+    Removes unnecessary fields and adds the time that the item was updated.
+    """
+
+    # Define a list of undesired keys
+    undesired_keys = [
+        "type",
+        "typeIcon",
+        "current",
+        "today",
+        "day30",
+        "day90",
+        "day120",
+        "day180",
+    ]
+    # Remove any undesired keys and return
+    for key in undesired_keys:
+        try:
+            del item_details[key]
+        except KeyError:
+            pass
+
+    # TODO: Convert boolean values
+
+    # Add the time that the item was updated
+    item_details["updated_at"] = dt.datetime.now().isoformat()
+
+    # Return the cleaned item details
+    return item_details
+
+
+def save_item_details_to_json(
+    item_details: dict,
+    filename: str,
+    indent: int = 4,
+) -> dict:
+    """Saves the item details to a JSON file and returns the dictionary."""
+
+    # Create the dictionary that will be saved
+    data = {
+        "updated_at": dt.datetime.now().isoformat(),
+        "items": item_details,
+    }
+
+    # Save the data to a JSON file and return
+    with open(filename, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=indent)
+    return data
+
+
+def main() -> None:
+    """Main function."""
+
+    # Read the item details JSON file
+    details_filename = "details.json"
+    item_details = get_item_details_from_json(details_filename)
+    item_details = get_all_item_details(item_details, details_filename)
+    tqdm.write("Finished fetching items.")
+
+
+if __name__ == "__main__":
+    main()

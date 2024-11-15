@@ -1,0 +1,7 @@
+# Language specific
+env/
+
+# Project specific
+ide/
+*.ipynb
+*_test.*
