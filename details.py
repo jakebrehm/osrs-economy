@@ -27,10 +27,10 @@ def get_item_details_from_json(filename: str) -> dict:
             data = json.load(f)
         return data["items"]
     except FileNotFoundError:
-        print(f"Error occurred while opening JSON file '{filename}'.")
+        tqdm.write(f"Error occurred while opening JSON file '{filename}'.")
         return {}
     except json.JSONDecodeError:
-        print(f"Error occurred while decoding JSON file '{filename}'.")
+        tqdm.write(f"Error occurred while decoding JSON file '{filename}'.")
         return {}
 
 
@@ -44,7 +44,7 @@ def get_item_ids() -> list[int]:
             timeout=TIMEOUT,
         )
     except requests.exceptions.RequestException:
-        print("Error occurred while fetching item IDs.")
+        tqdm.write("Error occurred while fetching item IDs.")
         return []
     return list(int(item_id) for item_id in response.json()["data"].keys())
 
@@ -73,9 +73,8 @@ def get_item_details_from_id(item_id: int, raw: bool = False) -> dict:
 def get_all_item_details(
     item_details: dict,
     filename: str,
-    wait_after_success: float = 5.0,
-    wait_after_failure: float = 60.0 * 10,
-    max_failures: int = 5,
+    wait: float = 5.0,
+    chunk_size: int = 20,
 ) -> dict:
     """Gets details for all tradeable items.
 
@@ -91,66 +90,58 @@ def get_all_item_details(
     tqdm_bar = tqdm(
         total=len(all_ids),
         initial=len(existing_ids),
-        desc="Fetching item details",
+        desc="Fetching",
         unit="item",
     )
 
     # Continuously fetch missing item details until all items are fetched
     okay_to_proceed = True
-    failures = 0
+    unsaved_count = 0
     max_length = len(str(max(missing_ids)))
-    # NOTE: Can probably remove outer loop layer with >5s wait
-    while okay_to_proceed and missing_ids and failures < max_failures:
-        for missing_id in missing_ids:
-            try:
-                missing_details = get_item_details_from_id(missing_id)
-            except requests.exceptions.RequestException:
-                tqdm_bar.set_description("Skipping...")
-                tqdm.write(
-                    f"Error occurred while fetching details for ID {missing_id}."
-                )
-                # Sleep to avoid rate limiting
-                time.sleep(wait_after_success)
-                # Continue to next item
+    for item_id in missing_ids:
+        try:
+            missing_details = get_item_details_from_id(item_id)
+        except (requests.exceptions.RequestException, json.JSONDecodeError):
+            tqdm_bar.set_description("Skipping")
+            tqdm.write(f"✖️ {item_id:>{max_length}}: Error")
+            tqdm_bar.update(1)
+            okay_to_proceed = wait_for_okay(wait)
+            if okay_to_proceed:
                 continue
-            except json.JSONDecodeError:
-                failures += 1
-                tqdm_bar.set_description("Waiting...")
-                tqdm.write(
-                    f"Sequential failure {failures} of {max_failures} occurred "
-                    f"while fetching details for ID {missing_id}."
-                )
-                resume_estimate = (
-                    dt.datetime.now() + dt.timedelta(seconds=wait_after_failure)
-                ).strftime("%Y-%m-%d %H:%M:%S")
-                tqdm.write(
-                    f"Waiting {wait_after_failure} seconds... "
-                    f"resuming at approximately {resume_estimate}."
-                )
-                # Sleep to avoid rate limiting
-                time.sleep(wait_after_failure)
-                break
-            except KeyboardInterrupt:
-                okay_to_proceed = False
-                tqdm_bar.set_description("Stopping...")
-                tqdm.write("Stopping fetch...")
-                break
-            else:
-                item_details[missing_id] = missing_details
-                tqdm_bar.set_description("Fetching...")
-                tqdm_bar.update(1)
-                tqdm.write(f"{missing_id:>{max_length}}: {missing_details['name']}")
-                # Reset failure counter
-                failures = 0
-                # Sleep to avoid rate limiting
-                time.sleep(wait_after_success)
-        # Save the merged item details to a JSON file intermittently
+        except KeyboardInterrupt:
+            okay_to_proceed = False
+        else:
+            item_details[item_id] = missing_details
+            tqdm_bar.set_description("Fetching")
+            tqdm.write(f"✔️ {item_id:>{max_length}}: {missing_details['name']}")
+            tqdm_bar.update(1)
+            unsaved_count += 1
+            if unsaved_count >= chunk_size:
+                unsaved_count = 0
+                tqdm.write("Writing unsaved chunk to JSON file...")
+                save_item_details_to_json(item_details, filename)
+            okay_to_proceed = wait_for_okay(wait)
+        if not okay_to_proceed:
+            tqdm_bar.set_description("Stopping")
+            tqdm_bar.close()
+            tqdm.write("Stopping fetch due to user interrupt.")
+            break
+    else:
+        tqdm_bar.close()
         save_item_details_to_json(item_details, filename)
-        # Update the existing and missing item IDs
-        existing_ids = [int(item_id) for item_id in item_details]
-        missing_ids = list(set(all_ids) - set(existing_ids))
-    tqdm_bar.close()
     return item_details
+
+
+def wait_for_okay(wait: float) -> bool:
+    """Waits for a specified amount of time and monitors for interrupts.
+
+    Return True if the user has not interrupted the program, False otherwise.
+    """
+    try:
+        time.sleep(wait)
+    except KeyboardInterrupt:
+        return False
+    return True
 
 
 def clean_item_details(item_details: dict) -> dict:
@@ -207,8 +198,6 @@ def save_item_details_to_json(
 
 def main() -> None:
     """Main function."""
-
-    # Read the item details JSON file
     details_filename = "details.json"
     item_details = get_item_details_from_json(details_filename)
     item_details = get_all_item_details(item_details, details_filename)
