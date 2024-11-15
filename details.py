@@ -25,7 +25,7 @@ def get_item_details_from_json(filename: str) -> dict:
     try:
         with open(filename, "r", encoding="utf-8") as f:
             data = json.load(f)
-        return data["items"]
+        return data
     except FileNotFoundError:
         tqdm.write(f"Error occurred while opening JSON file '{filename}'.")
         return {}
@@ -70,13 +70,13 @@ def get_item_details_from_id(item_id: int, raw: bool = False) -> dict:
     return result if raw else clean_item_details(result)
 
 
-def get_all_item_details(
-    item_details: dict,
+def fetch_item_details(
+    data: dict,
     filename: str,
     wait: float = 5.0,
     chunk_size: int = 20,
 ) -> dict:
-    """Gets details for all tradeable items.
+    """Gets details for all tradeable items as well as a list of invalid IDs.
 
     Wait is the amount of time to wait between requests.
     Chunk size is the number of items to fetch before saving intermittently.
@@ -84,8 +84,15 @@ def get_all_item_details(
 
     # Determine which items are missing
     all_ids = get_item_ids()
-    existing_ids = [int(item_id) for item_id in item_details]
-    missing_ids = list(set(all_ids) - set(existing_ids))
+    details = data["items"]
+    invalid_ids = data["invalid"]
+    existing_ids = [int(item_id) for item_id in details]
+    missing_ids = list(set(all_ids) - set(existing_ids) - set(invalid_ids))
+
+    # Return if there are no missing items
+    if not missing_ids:
+        tqdm.write("All items are up to date.")
+        return data
 
     # Initialize the progress bar
     tqdm_bar = tqdm(
@@ -103,26 +110,28 @@ def get_all_item_details(
     for item_id in missing_ids:
         try:
             missing_details = get_item_details_from_id(item_id)
+        except KeyboardInterrupt:
+            wait = 0.0
+            okay_to_proceed = False
         except (requests.exceptions.RequestException, json.JSONDecodeError):
             tqdm_bar.set_description("Skipping")
             tqdm.write(f"✖️ {item_id:>{max_length}}: Error")
             tqdm_bar.update(1)
-            okay_to_proceed = wait_for_okay(wait)
-            if okay_to_proceed:
-                continue
-        except KeyboardInterrupt:
-            okay_to_proceed = False
+            unsaved_count += 1
+            data["invalid"].append(item_id)
         else:
-            item_details[item_id] = missing_details
+            data["items"][item_id] = missing_details
             tqdm_bar.set_description("Fetching")
             tqdm.write(f"✔️ {item_id:>{max_length}}: {missing_details['name']}")
             tqdm_bar.update(1)
             unsaved_count += 1
-            if unsaved_count >= chunk_size:
-                unsaved_count = 0
-                tqdm.write("Writing unsaved details to JSON file...")
-                save_item_details_to_json(item_details, filename)
-            okay_to_proceed = wait_for_okay(wait)
+        # Save the unsaved details if the chunk size is reached
+        if unsaved_count >= chunk_size:
+            unsaved_count = 0
+            tqdm.write("Writing unsaved details to JSON file...")
+            save_item_details_to_json(data, filename)
+        # Wait to avoid rate limiting while monitoring for interrupts
+        okay_to_proceed = wait_for_okay(wait)
         if not okay_to_proceed:
             tqdm_bar.set_description("Stopping")
             tqdm_bar.close()
@@ -130,8 +139,8 @@ def get_all_item_details(
             break
     else:
         tqdm_bar.close()
-        save_item_details_to_json(item_details, filename)
-    return item_details
+        save_item_details_to_json(data, filename)
+    return data
 
 
 def wait_for_okay(wait: float) -> bool:
@@ -186,34 +195,30 @@ def clean_item_details(item_details: dict) -> dict:
 
 
 def save_item_details_to_json(
-    item_details: dict,
+    data: dict,
     filename: str,
     indent: int = 4,
-    sort_by_id: bool = True,
 ) -> dict:
     """Saves the item details to a JSON file and returns the dictionary."""
 
-    # Create the dictionary that will be saved
-    data = {
-        "updated_at": dt.datetime.now().isoformat(),
-        "items": item_details,
-    }
+    # Add the time that the data was updated
+    data["updated_at"] = dt.datetime.now().isoformat()
+
+    # Sort the appropriate structures by ID
+    data["invalid"] = sorted(data["invalid"])
+    data["items"] = dict(sorted(data["items"].items(), key=lambda i: i[1]["id"]))
 
     # Save the data to a JSON file and return
     with open(filename, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=indent)
-
-    # Sort the items by ID if requested and return
-    if sort_by_id:
-        data["items"] = dict(sorted(data["items"].items(), key=lambda i: i[1]["id"]))
     return data
 
 
 def main() -> None:
     """Main function."""
     details_filename = "details.json"
-    item_details = get_item_details_from_json(details_filename)
-    item_details = get_all_item_details(item_details, details_filename)
+    details_data = get_item_details_from_json(details_filename)
+    fetch_item_details(details_data, details_filename)
     tqdm.write("Finished fetching items.")
 
 
