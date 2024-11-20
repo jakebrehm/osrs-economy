@@ -4,6 +4,7 @@ Generates a JSON file with all tradeable items in the game.
 
 import datetime as dt
 import json
+import os
 import time
 
 import requests
@@ -216,7 +217,7 @@ def save_item_details_to_json(
 
 def main() -> None:
     """Main function."""
-    details_filename = "details.json"
+    details_filename = os.path.join("data", "details.json")
     details_data = get_item_details_from_json(details_filename)
     fetch_item_details(details_data, details_filename)
     tqdm.write("Finished fetching items.")
