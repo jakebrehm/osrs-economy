@@ -25,8 +25,7 @@ def get_item_details_from_json(filename: str) -> dict:
     """Gets the details for all tradeable items from a JSON file."""
     try:
         with open(filename, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        return data
+            return json.load(f)
     except FileNotFoundError:
         tqdm.write(f"Error occurred while opening JSON file '{filename}'.")
         return {}
@@ -79,7 +78,8 @@ def fetch_item_details(
 ) -> dict:
     """Gets details for all tradeable items as well as a list of invalid IDs.
 
-    Wait is the amount of time to wait between requests.
+    Wait is the amount of time to wait between requests (defaults to 5 seconds,
+    which will avoid rate limiting).
     Chunk size is the number of items to fetch before saving intermittently.
     """
 
