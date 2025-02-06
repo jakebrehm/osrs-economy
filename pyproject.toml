@@ -1,0 +1,13 @@
+[project]
+name = "osrs-economy"
+version = "0.1.0"
+description = "An ELT project that aims to store and analyze tradable items in Old School RuneScape."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+production = [
+    "requests>=2.32.3",
+    "tqdm>=4.67.1",
+]

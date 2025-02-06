@@ -1,8 +1,11 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 
+# Platform-specific
+.DS_Store
+
 # Environments
-env/
+.venv/
 
 # Jupyter Notebooks
 .ipynb_checkpoints
@@ -10,5 +13,6 @@ env/
 # Project specific
 ide/
 data/ignore/
+notebooks/
 *.ipynb
 *_test.*
