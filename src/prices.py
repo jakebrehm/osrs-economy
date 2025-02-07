@@ -3,21 +3,15 @@ Generates a JSON file with curent prices for all tradeable items in the game.
 """
 
 import json
-import os
 import time
+from pathlib import Path
 from typing import Iterable, Iterator
 
 import requests
 from tqdm import tqdm
 
-from details import get_item_details_from_json
-
-# Define constants
-USER_AGENT = "OSRS Economy Tracker - Personal Project (jake.m.brehm@gmail.com)"
-TIMEOUT = 10  # seconds
-
-# Define API URLs
-BASE_URL_WEIRDGLOOP = "https://api.weirdgloop.org/exchange/history/osrs/latest"
+from .config import Config
+from .details import get_item_details_from_json
 
 
 def as_chunks(sequence: Iterable[int], size: int) -> Iterator[list[str]]:
@@ -25,7 +19,10 @@ def as_chunks(sequence: Iterable[int], size: int) -> Iterator[list[str]]:
     return (sequence[pos : pos + size] for pos in range(0, len(sequence), size))
 
 
-def get_current_prices_for_ids(item_ids: list[int | str]) -> dict:
+def get_current_prices_for_ids(
+    item_ids: list[int | str],
+    config: Config | None = None,
+) -> dict:
     """Gets the current prices for a list of item IDs.
 
     Note that the IDs must be in the format "item_id|item_id|...", and that
@@ -34,10 +31,10 @@ def get_current_prices_for_ids(item_ids: list[int | str]) -> dict:
 
     try:
         response = requests.get(
-            url=BASE_URL_WEIRDGLOOP,
+            url=config.get("endpoints", "weirdgloop"),
             params={"id": "|".join(str(item_id) for item_id in item_ids)},
-            headers={"User-Agent": USER_AGENT},
-            timeout=TIMEOUT,
+            headers={"User-Agent": config.get("user_agent")},
+            timeout=config.get("timeout"),
         )
     except requests.exceptions.RequestException:
         tqdm.write("Error occurred while fetching item prices.")
@@ -50,8 +47,13 @@ def fetch_item_prices(
     filename: str,
     wait: float = 1.0,
     chunk_size: int = 100,
+    config: Config | None = None,
 ) -> dict:
     """Gets the current prices for all tradeable items."""
+
+    # Create a default config object if none is provided
+    if config is None:
+        config = Config(Path("./cfg/"))
 
     # Initialize the progress bar
     tqdm_bar = tqdm(
@@ -65,7 +67,7 @@ def fetch_item_prices(
     # Get current prices for all items in chunks
     all_prices = {}
     for chunk in tqdm(as_chunks(item_ids, size=chunk_size)):
-        chunk_prices = get_current_prices_for_ids(chunk)
+        chunk_prices = get_current_prices_for_ids(chunk, config=config)
         all_prices.update(chunk_prices)
         tqdm_bar.update(len(chunk))
         # Save the price data itermittently
@@ -86,15 +88,17 @@ def save_item_prices_to_json(
     return data
 
 
-def main() -> None:
-    """Main function."""
-    details_filename = os.path.join("data", "details.json")
-    prices_filename = os.path.join("data", "prices.json")
+def generate_item_prices(config: Config | None = None) -> None:
+    """Generates the item prices file from start to finish."""
+
+    # Create a default config object if none is provided
+    if config is None:
+        config = Config(Path("./cfg/"))
+    details_filename = config.get_data_path(config.DETAILS_FILENAME)
+    prices_filename = config.get_data_path(config.PRICES_FILENAME)
+
+    # Fetch the item prices
     details_data = get_item_details_from_json(details_filename)
     item_ids = list(details_data["items"].keys())
-    fetch_item_prices(item_ids, prices_filename)
+    fetch_item_prices(item_ids, prices_filename, config=config)
     tqdm.write("Finished fetching prices.")
-
-
-if __name__ == "__main__":
-    main()

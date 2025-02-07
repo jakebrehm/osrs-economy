@@ -4,21 +4,13 @@ Generates a JSON file with all tradeable items in the game.
 
 import datetime as dt
 import json
-import os
 import time
+from pathlib import Path
 
 import requests
 from tqdm import tqdm
 
-# Define constants
-USER_AGENT = "OSRS Economy Tracker - Personal Project (jake.m.brehm@gmail.com)"
-TIMEOUT = 10  # seconds
-
-# Define API URLs
-BASE_URL_WIKI = "https://prices.runescape.wiki/api/v1/osrs/latest"
-BASE_URL_DETAIL = (
-    "https://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json"
-)
+from .config import Config
 
 
 def get_item_details_from_json(filename: str) -> dict:
@@ -34,14 +26,19 @@ def get_item_details_from_json(filename: str) -> dict:
         return {}
 
 
-def get_item_ids() -> list[int]:
+def get_item_ids(config: Config | None = None) -> list[int]:
     """Gets a list of IDs for all tradeable items in the game."""
 
+    # Create a default config object if none is provided
+    if config is None:
+        config = Config(Path("./cfg/"))
+
+    # Get the item IDs from the wiki API
     try:
         response = requests.get(
-            url=BASE_URL_WIKI,
-            headers={"User-Agent": USER_AGENT},
-            timeout=TIMEOUT,
+            url=config.get("endpoints", "wiki"),
+            headers={"User-Agent": config.get("user_agent")},
+            timeout=config.get("timeout"),
         )
     except requests.exceptions.RequestException:
         tqdm.write("Error occurred while fetching item IDs.")
@@ -49,7 +46,11 @@ def get_item_ids() -> list[int]:
     return list(int(item_id) for item_id in response.json()["data"].keys())
 
 
-def get_item_details_from_id(item_id: int, raw: bool = False) -> dict:
+def get_item_details_from_id(
+    item_id: int,
+    raw: bool = False,
+    config: Config | None = None,
+) -> dict:
     """Gets the details for a specific item ID.
 
     Will returned a dictionary with the item details that is cleaned by default.
@@ -59,11 +60,16 @@ def get_item_details_from_id(item_id: int, raw: bool = False) -> dict:
     Will throw an exception if the request fails.
     """
 
+    # Create a default config object if none is provided
+    if config is None:
+        config = Config(Path("./cfg/"))
+
+    # Get the item details from the details API
     response = requests.get(
-        url=BASE_URL_DETAIL,
+        url=config.get("endpoints", "details"),
         params={"item": item_id},
-        headers={"User-Agent": USER_AGENT},
-        timeout=TIMEOUT,
+        headers={"User-Agent": config.get("user_agent")},
+        timeout=config.get("timeout"),
     )
     response.raise_for_status()
     result = response.json()["item"]
@@ -75,6 +81,7 @@ def fetch_item_details(
     filename: str,
     wait: float = 5.0,
     chunk_size: int = 20,
+    config: Config | None = None,
 ) -> dict:
     """Gets details for all tradeable items as well as a list of invalid IDs.
 
@@ -83,8 +90,18 @@ def fetch_item_details(
     Chunk size is the number of items to fetch before saving intermittently.
     """
 
+    # Create a default config object if none is provided
+    if config is None:
+        config = Config(Path("./cfg/"))
+
+    # Verify that the data has the necessary format
+    if "items" not in data:
+        data["items"] = {}
+    if "invalid" not in data:
+        data["invalid"] = []
+
     # Determine which items are missing
-    all_ids = get_item_ids()
+    all_ids = get_item_ids(config=config)
     details = data["items"]
     invalid_ids = data["invalid"]
     existing_ids = [int(item_id) for item_id in details]
@@ -110,7 +127,7 @@ def fetch_item_details(
     max_length = len(str(max(missing_ids)))
     for item_id in missing_ids:
         try:
-            missing_details = get_item_details_from_id(item_id)
+            missing_details = get_item_details_from_id(item_id, config=config)
         except KeyboardInterrupt:
             wait = 0.0
             okay_to_proceed = False
@@ -162,25 +179,18 @@ def clean_item_details(item_details: dict) -> dict:
     Removes unnecessary fields and adds the time that the item was updated.
     """
 
-    # Define a list of undesired keys
-    undesired_keys = [
-        "icon",
-        "icon_large",
-        "type",
-        "typeIcon",
-        "current",
-        "today",
-        "day30",
-        "day90",
-        "day120",
-        "day180",
+    # Define a list of desired keys
+    desired_keys = [
+        "id",
+        "name",
+        "description",
+        "members",
+        "updated_at",
     ]
     # Remove any undesired keys and return
-    for key in undesired_keys:
-        try:
-            del item_details[key]
-        except KeyError:
-            pass
+    item_details = {
+        key: value for key, value in item_details.items() if key in desired_keys
+    }
 
     # Convert boolean values
     item_details["members"] = {
@@ -215,13 +225,15 @@ def save_item_details_to_json(
     return data
 
 
-def main() -> None:
-    """Main function."""
-    details_filename = os.path.join("data", "details.json")
+def generate_item_details(config: Config | None = None) -> None:
+    """Generates the item details file from start to finish."""
+
+    # Create a default config object if none is provided
+    if config is None:
+        config = Config(Path("./cfg/"))
+    details_filename = config.get_data_path(config.DETAILS_FILENAME)
+
+    # Fetch the item details
     details_data = get_item_details_from_json(details_filename)
-    fetch_item_details(details_data, details_filename)
+    fetch_item_details(details_data, details_filename, config=config)
     tqdm.write("Finished fetching items.")
-
-
-if __name__ == "__main__":
-    main()

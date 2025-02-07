@@ -1,0 +1,10 @@
+{
+    "project_name": "OSRS Economy Tracker",
+    "user_agent": "OSRS Economy Tracker - Personal Project (jake.m.brehm@gmail.com)",
+    "timeout": 10,
+    "endpoints": {
+        "wiki": "https://prices.runescape.wiki/api/v1/osrs/latest",
+        "details": "https://services.runescape.com/m=itemdb_oldschool/api/catalogue/detail.json",
+        "weirdgloop": "https://api.weirdgloop.org/exchange/history/osrs/latest"
+    }
+}
