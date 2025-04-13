@@ -16,3 +16,10 @@ data/ignore/
 notebooks/
 *.ipynb
 *_test.*
+
+# Terraform
+cfg/gcp-credentials.json
+terraform/*
+!terraform/main.tf
+!terraform/variables.tf
+!terraform/.terraform.lock.hcl
