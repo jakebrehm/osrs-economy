@@ -3,19 +3,22 @@ Generates a JSON file with all tradeable items in the game.
 """
 
 import json
-from pathlib import Path
 
 import requests
 from tqdm import tqdm
 
-from .config import Config
-from .utilities import get_iso_datetime, read_json, wait_for_okay, write_json
+from .config import Config, DataHandler
+from .structures.enums import ResultType
+from .utilities import get_iso_datetime, wait_for_okay
 
 
-def get_item_details_from_json(filename: str) -> dict:
+def get_item_details(config: Config) -> dict:
     """Gets the details for all tradeable items from a JSON file."""
+    result_type = ResultType.DETAILS
+    filename = result_type.filename
     try:
-        return read_json(filename)
+        with DataHandler.from_config(config) as handler:
+            return handler.load(result_type)
     except FileNotFoundError:
         tqdm.write(f"Error occurred while opening JSON file '{filename}'.")
     except json.JSONDecodeError:
@@ -23,14 +26,8 @@ def get_item_details_from_json(filename: str) -> dict:
     return {}
 
 
-def get_item_ids(config: Config | None = None) -> list[int]:
+def get_item_ids(config: Config) -> list[int]:
     """Gets a list of IDs for all tradeable items in the game."""
-
-    # Create a default config object if none is provided
-    if config is None:
-        config = Config(Path("./cfg/"))
-
-    # Get the item IDs from the wiki API
     try:
         response = requests.get(
             url=config.get("endpoints", "wiki"),
@@ -45,8 +42,8 @@ def get_item_ids(config: Config | None = None) -> list[int]:
 
 def get_item_details_from_id(
     item_id: int,
+    config: Config,
     raw: bool = False,
-    config: Config | None = None,
 ) -> dict:
     """Gets the details for a specific item ID.
 
@@ -56,12 +53,6 @@ def get_item_details_from_id(
 
     Will throw an exception if the request fails.
     """
-
-    # Create a default config object if none is provided
-    if config is None:
-        config = Config(Path("./cfg/"))
-
-    # Get the item details from the details API
     response = requests.get(
         url=config.get("endpoints", "details"),
         params={"item": item_id},
@@ -75,10 +66,9 @@ def get_item_details_from_id(
 
 def fetch_item_details(
     data: dict,
-    filename: str,
+    config: Config,
     wait: float = 5.0,
     chunk_size: int = 20,
-    config: Config | None = None,
 ) -> dict:
     """Gets details for all tradeable items as well as a list of invalid IDs.
 
@@ -86,10 +76,6 @@ def fetch_item_details(
     which will avoid rate limiting).
     Chunk size is the number of items to fetch before saving intermittently.
     """
-
-    # Create a default config object if none is provided
-    if config is None:
-        config = Config(Path("./cfg/"))
 
     # Verify that the data has the necessary format
     if "items" not in data:
@@ -119,15 +105,14 @@ def fetch_item_details(
     )
 
     # Continuously fetch missing item details until all items are fetched
-    okay_to_proceed = True
+    interrupted = False
     unsaved_count = 0
     max_length = len(str(max(missing_ids)))
     for item_id in missing_ids:
         try:
             missing_details = get_item_details_from_id(item_id, config=config)
         except KeyboardInterrupt:
-            wait = 0.0
-            okay_to_proceed = False
+            interrupted = True
         except (requests.exceptions.RequestException, json.JSONDecodeError):
             tqdm_bar.set_description("Skipping")
             tqdm.write(f"✖️ {item_id:>{max_length}}: Error")
@@ -144,17 +129,17 @@ def fetch_item_details(
         if unsaved_count >= chunk_size:
             unsaved_count = 0
             tqdm.write("Writing unsaved details to JSON file...")
-            save_item_details_to_json(data, filename)
+            save_item_details(data, config=config)
         # Wait to avoid rate limiting while monitoring for interrupts
-        okay_to_proceed = wait_for_okay(wait)
-        if not okay_to_proceed:
+        if not interrupted and not wait_for_okay(wait):
             tqdm_bar.set_description("Stopping")
             tqdm_bar.close()
             tqdm.write("Stopping fetch due to user interrupt.")
             break
     else:
         tqdm_bar.close()
-        save_item_details_to_json(data, filename)
+        save_item_details(data, config=config)
+    tqdm.write("Finished fetching items.")
     return data
 
 
@@ -192,11 +177,7 @@ def clean_item_details(item_details: dict) -> dict:
     return item_details
 
 
-def save_item_details_to_json(
-    data: dict,
-    filename: str,
-    indent: int = 4,
-) -> dict:
+def save_item_details(data: dict, config: Config) -> dict:
     """Saves the item details to a JSON file and returns the dictionary."""
 
     # Add the time that the data was updated
@@ -209,19 +190,12 @@ def save_item_details_to_json(
     )
 
     # Save the data to a JSON file and return
-    write_json(filename, data, indent=indent)
+    with DataHandler.from_config(config) as handler:
+        handler.save(ResultType.DETAILS, data)
     return data
 
 
-def generate_item_details(config: Config | None = None) -> None:
+def generate_item_details(config: Config) -> dict:
     """Generates the item details file from start to finish."""
-
-    # Create a default config object if none is provided
-    if config is None:
-        config = Config(Path("./cfg/"))
-    details_filename = config.get_data_path(config.DETAILS_FILENAME)
-
-    # Fetch the item details
-    details_data = get_item_details_from_json(details_filename)
-    fetch_item_details(details_data, details_filename, config=config)
-    tqdm.write("Finished fetching items.")
+    details_data = get_item_details(config=config)
+    return fetch_item_details(details_data, config=config)

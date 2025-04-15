@@ -3,19 +3,19 @@ Generates a JSON file with curent prices for all tradeable items in the game.
 """
 
 import time
-from pathlib import Path
 
 import requests
 from tqdm import tqdm
 
-from .config import Config
-from .details import get_item_details_from_json
-from .utilities import as_chunks, write_json
+from .config import Config, DataHandler
+from .details import get_item_details
+from .structures.enums import ResultType
+from .utilities import as_chunks
 
 
 def get_current_prices_for_ids(
     item_ids: list[int | str],
-    config: Config | None = None,
+    config: Config,
 ) -> dict:
     """Gets the current prices for a list of item IDs.
 
@@ -38,16 +38,11 @@ def get_current_prices_for_ids(
 
 def fetch_item_prices(
     item_ids: list[int | str],
-    filename: str,
+    config: Config,
     wait: float = 1.0,
     chunk_size: int = 100,
-    config: Config | None = None,
 ) -> dict:
     """Gets the current prices for all tradeable items."""
-
-    # Create a default config object if none is provided
-    if config is None:
-        config = Config(Path("./cfg/"))
 
     # Initialize the progress bar
     tqdm_bar = tqdm(
@@ -65,33 +60,22 @@ def fetch_item_prices(
         all_prices.update(chunk_prices)
         tqdm_bar.update(len(chunk))
         # Save the price data itermittently
-        save_item_prices_to_json(all_prices, filename)
+        save_item_prices(all_prices, config=config)
         # Wait to avoid any potential rate limiting
         time.sleep(wait)
+    tqdm.write("Finished fetching prices.")
     return all_prices
 
 
-def save_item_prices_to_json(
-    data: dict,
-    filename: str,
-    indent: int = 4,
-) -> dict:
+def save_item_prices(data: dict, config: Config) -> dict:
     """Saves the item prices to a JSON file and returns the dictionary."""
-    write_json(filename, data, indent=indent)
+    with DataHandler.from_config(config) as handler:
+        handler.save(ResultType.PRICES, data)
     return data
 
 
-def generate_item_prices(config: Config | None = None) -> None:
+def generate_item_prices(config: Config) -> dict:
     """Generates the item prices file from start to finish."""
-
-    # Create a default config object if none is provided
-    if config is None:
-        config = Config(Path("./cfg/"))
-    details_filename = config.get_data_path(config.DETAILS_FILENAME)
-    prices_filename = config.get_data_path(config.PRICES_FILENAME)
-
-    # Fetch the item prices
-    details_data = get_item_details_from_json(details_filename)
+    details_data = get_item_details(config=config)
     item_ids = list(details_data["items"].keys())
-    fetch_item_prices(item_ids, prices_filename, config=config)
-    tqdm.write("Finished fetching prices.")
+    return fetch_item_prices(item_ids, config=config)

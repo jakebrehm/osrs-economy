@@ -7,7 +7,7 @@ import argparse
 from src.config import Config
 from src.details import generate_item_details
 from src.prices import generate_item_prices
-from src.structures.enums import Mode
+from src.structures.enums import ExecutionMode, StorageMode
 
 
 def parse_arguments(config: Config) -> None:
@@ -16,12 +16,20 @@ def parse_arguments(config: Config) -> None:
     parser.add_argument(
         "mode",
         nargs="?",
-        choices=[mode.name.lower() for mode in Mode],
-        default=Mode.PRICES.name.lower(),
+        choices=[mode.name.lower() for mode in ExecutionMode],
+        default=ExecutionMode.PRICES.name.lower(),
         help="The mode/script to run.",
     )
+    parser.add_argument(
+        "storage",
+        nargs="?",
+        choices=[mode.name.lower() for mode in StorageMode],
+        default=StorageMode.LOCAL.name.lower(),
+        help="The location to store resulting data.",
+    )
     args = parser.parse_args()
-    args.mode = Mode[args.mode.upper()]
+    args.mode = ExecutionMode[args.mode.upper()]
+    args.storage = StorageMode[args.storage.upper()]
     return args
 
 
@@ -34,11 +42,14 @@ def main() -> None:
     # Parse the command line arguments
     args = parse_arguments(config)
 
+    # Set the storage mode
+    config.storage_mode = args.storage
+
     # Execute the selected function
     match args.mode:
-        case Mode.DETAILS:
+        case ExecutionMode.DETAILS:
             generate_item_details(config=config)
-        case Mode.PRICES:
+        case ExecutionMode.PRICES:
             generate_item_prices(config=config)
 
 

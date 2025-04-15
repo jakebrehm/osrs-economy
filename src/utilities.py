@@ -5,7 +5,20 @@ Utility functions for the project.
 import datetime as dt
 import json
 import time
+from pathlib import Path
 from typing import Any, Iterable, Iterator
+
+
+def to_path(path: str | Path | None, default: str) -> Path:
+    """Converts the provided object into a Path and returns it.
+
+    If the provided object is None, the default path is returned.
+    """
+    if path is None:
+        path = Path(default)
+    elif isinstance(path, str):
+        path = Path(path)
+    return path
 
 
 def read_json(filename: str) -> dict:
