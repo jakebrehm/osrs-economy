@@ -1,0 +1,32 @@
+[
+    {
+      "name" : "id",
+      "type" : "INTEGER",
+      "mode" : "REQUIRED",
+      "description" : "The id of the item."
+    },
+    {
+      "name" : "name",
+      "type" : "STRING",
+      "mode" : "REQUIRED",
+      "description" : "The name of the item."
+    },
+    {
+      "name" : "description",
+      "type" : "STRING",
+      "mode" : "REQUIRED",
+      "description" : "The description of the item."
+    },
+    {
+      "name" : "is_members",
+      "type" : "BOOLEAN",
+      "mode" : "REQUIRED",
+      "description" : "Whether the item is a members-only item."
+    },
+    {
+      "name" : "updated_at",
+      "type" : "TIMESTAMP",
+      "mode" : "REQUIRED",
+      "description" : "The date and time the item was last updated."
+    }
+]

@@ -21,6 +21,7 @@ notebooks/
 # Terraform
 cfg/gcp-credentials.json
 terraform/*
+!terraform/schemas
 !terraform/main.tf
 !terraform/variables.tf
 !terraform/.terraform.lock.hcl

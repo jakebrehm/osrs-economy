@@ -29,3 +29,17 @@ resource "google_bigquery_dataset" "osrs_economy" {
   dataset_id = var.bigquery_dataset_name
   location   = var.bigquery_dataset_location
 }
+
+resource "google_bigquery_table" "item_details" {
+  table_id   = "items"
+  dataset_id = google_bigquery_dataset.osrs_economy.dataset_id
+
+  schema = file(var.bigquery_items_schema)
+}
+
+resource "google_bigquery_table" "item_prices" {
+  table_id   = "prices"
+  dataset_id = google_bigquery_dataset.osrs_economy.dataset_id
+
+  schema = file(var.bigquery_prices_schema)
+}

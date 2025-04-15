@@ -45,3 +45,15 @@ variable "bigquery_dataset_location" {
   type        = string
   default     = "US"
 }
+
+variable "bigquery_items_schema" {
+  description = "Path to the schema file for the Items BigQuery table."
+  type        = string
+  default     = "./schemas/items.json"
+}
+
+variable "bigquery_prices_schema" {
+  description = "Path to the schema file for the Prices BigQuery table."
+  type        = string
+  default     = "./schemas/prices.json"
+}

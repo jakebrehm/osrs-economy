@@ -1,0 +1,26 @@
+[
+    {
+      "name" : "id",
+      "type" : "INTEGER",
+      "mode" : "REQUIRED",
+      "description" : "The id of the item the price is for."
+    },
+    {
+      "name" : "price",
+      "type" : "INTEGER",
+      "mode" : "REQUIRED",
+      "description" : "The price of the item."
+    },
+    {
+      "name" : "volume",
+      "type" : "INTEGER",
+      "mode" : "REQUIRED",
+      "description" : "The volume of the item."
+    },
+    {
+      "name" : "recorded_at",
+      "type" : "TIMESTAMP",
+      "mode" : "REQUIRED",
+      "description" : "The date and time the price was recorded."
+    }
+]
