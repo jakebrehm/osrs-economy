@@ -2,28 +2,25 @@
 Generates a JSON file with all tradeable items in the game.
 """
 
-import datetime as dt
 import json
-import time
 from pathlib import Path
 
 import requests
 from tqdm import tqdm
 
 from .config import Config
+from .utilities import get_iso_datetime, read_json, wait_for_okay, write_json
 
 
 def get_item_details_from_json(filename: str) -> dict:
     """Gets the details for all tradeable items from a JSON file."""
     try:
-        with open(filename, "r", encoding="utf-8") as f:
-            return json.load(f)
+        return read_json(filename)
     except FileNotFoundError:
         tqdm.write(f"Error occurred while opening JSON file '{filename}'.")
-        return {}
     except json.JSONDecodeError:
         tqdm.write(f"Error occurred while decoding JSON file '{filename}'.")
-        return {}
+    return {}
 
 
 def get_item_ids(config: Config | None = None) -> list[int]:
@@ -161,18 +158,6 @@ def fetch_item_details(
     return data
 
 
-def wait_for_okay(wait: float) -> bool:
-    """Waits for a specified amount of time and monitors for interrupts.
-
-    Return True if the user has not interrupted the program, False otherwise.
-    """
-    try:
-        time.sleep(wait)
-    except KeyboardInterrupt:
-        return False
-    return True
-
-
 def clean_item_details(item_details: dict) -> dict:
     """Cleans the item details dictionary.
 
@@ -189,7 +174,9 @@ def clean_item_details(item_details: dict) -> dict:
     ]
     # Remove any undesired keys and return
     item_details = {
-        key: value for key, value in item_details.items() if key in desired_keys
+        key: value
+        for key, value in item_details.items()
+        if key in desired_keys
     }
 
     # Convert boolean values
@@ -199,7 +186,7 @@ def clean_item_details(item_details: dict) -> dict:
     }.get(item_details["members"], None)
 
     # Add the time that the item was updated
-    item_details["updated_at"] = dt.datetime.now(dt.timezone.utc).isoformat()
+    item_details["updated_at"] = get_iso_datetime()
 
     # Return the cleaned item details
     return item_details
@@ -213,15 +200,16 @@ def save_item_details_to_json(
     """Saves the item details to a JSON file and returns the dictionary."""
 
     # Add the time that the data was updated
-    data["updated_at"] = dt.datetime.now(dt.timezone.utc).isoformat()
+    data["updated_at"] = get_iso_datetime()
 
     # Sort the appropriate structures by ID
     data["invalid"] = sorted(data["invalid"])
-    data["items"] = dict(sorted(data["items"].items(), key=lambda i: i[1]["id"]))
+    data["items"] = dict(
+        sorted(data["items"].items(), key=lambda i: i[1]["id"])
+    )
 
     # Save the data to a JSON file and return
-    with open(filename, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=indent)
+    write_json(filename, data, indent=indent)
     return data
 
 

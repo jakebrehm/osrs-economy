@@ -2,21 +2,15 @@
 Generates a JSON file with curent prices for all tradeable items in the game.
 """
 
-import json
 import time
 from pathlib import Path
-from typing import Iterable, Iterator
 
 import requests
 from tqdm import tqdm
 
 from .config import Config
 from .details import get_item_details_from_json
-
-
-def as_chunks(sequence: Iterable[int], size: int) -> Iterator[list[str]]:
-    """Splits a sequence into chunks of a specified size."""
-    return (sequence[pos : pos + size] for pos in range(0, len(sequence), size))
+from .utilities import as_chunks, write_json
 
 
 def get_current_prices_for_ids(
@@ -83,8 +77,7 @@ def save_item_prices_to_json(
     indent: int = 4,
 ) -> dict:
     """Saves the item prices to a JSON file and returns the dictionary."""
-    with open(filename, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=indent)
+    write_json(filename, data, indent=indent)
     return data
 
 
