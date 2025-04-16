@@ -1,6 +1,6 @@
 [
     {
-      "name" : "id",
+      "name" : "item_id",
       "type" : "INTEGER",
       "mode" : "REQUIRED",
       "description" : "The id of the item the price is for."

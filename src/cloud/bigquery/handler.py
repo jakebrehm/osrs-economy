@@ -6,9 +6,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from src.cloud import bigquery
-
-from ...structures.enums import BigQueryItem
 from .helper import (
     get_bigquery_client,
     truncate_bigquery_table,
@@ -17,12 +14,13 @@ from .helper import (
 
 if TYPE_CHECKING:
     from types import TracebackType
-    from typing import Self
+    from typing import Self, Sequence
 
     import pandas as pd
-    from google.cloud.bigquery import Client
+    from google.cloud import bigquery
 
     from ...config import Config
+    from ...structures.enums import BigQueryItem
 
 
 class BigQueryHandler:
@@ -31,7 +29,7 @@ class BigQueryHandler:
     def __init__(self, config: Config) -> None:
         """Initializes the BigQueryHandler object."""
         self.config = config
-        self._client: Client | None = None
+        self._client: bigquery.Client | None = None
 
     def connect(self) -> None:
         """Connects to the cloud storage location."""
@@ -42,9 +40,13 @@ class BigQueryHandler:
         self._client.close()
         self._client = None
 
-    def upload(self, which: BigQueryItem, df: pd.DataFrame) -> None:
+    def upload(
+        self,
+        which: BigQueryItem,
+        df: pd.DataFrame,
+    ) -> Sequence[Sequence[dict]]:
         """Uploads the data to the desired table."""
-        upload_to_bigquery(self._client, which.table(self.config), df)
+        return upload_to_bigquery(self._client, which.table(self.config), df)
 
     def truncate(self, which: BigQueryItem) -> bigquery.QueryJob:
         """Truncates the data from the desired storage location."""
