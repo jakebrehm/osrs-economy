@@ -201,8 +201,8 @@ def save_item_details(data: dict, config: Config) -> dict:
 def upload_item_details(data: dict, config: Config) -> None:
     """Uploads the item prices to BigQuery."""
     records = list(data["items"].values())
-    columns = ["id", "name", "description", "is_members", "updated_at"]
-    df = pd.DataFrame.from_records(records, columns=columns)
+    df = pd.DataFrame.from_records(records)
+    df.columns = ["id", "name", "description", "is_members", "updated_at"]
     df["updated_at"] = pd.to_datetime(
         df["updated_at"],
         format="ISO8601",
