@@ -46,14 +46,26 @@ variable "bigquery_dataset_location" {
   default     = "US"
 }
 
-variable "bigquery_items_schema" {
+variable "bigquery_items_table_name" {
+  description = "Name of the Items BigQuery table to create."
+  type        = string
+  default     = "items"
+}
+
+variable "bigquery_items_table_schema" {
   description = "Path to the schema file for the Items BigQuery table."
   type        = string
   default     = "./schemas/items.json"
 }
 
-variable "bigquery_prices_schema" {
-  description = "Path to the schema file for the Prices BigQuery table."
+variable "bigquery_bronze_prices_table_name" {
+  description = "Name of the bronze Prices BigQuery table to create."
   type        = string
-  default     = "./schemas/prices.json"
+  default     = "bronze_prices"
+}
+
+variable "bigquery_bronze_prices_table_schema" {
+  description = "Path to the schema file for the bronze Prices BigQuery table."
+  type        = string
+  default     = "./schemas/bronze_prices.json"
 }

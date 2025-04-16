@@ -31,15 +31,14 @@ resource "google_bigquery_dataset" "osrs_economy" {
 }
 
 resource "google_bigquery_table" "item_details" {
-  table_id   = "items"
+  table_id   = var.bigquery_items_table_name
   dataset_id = google_bigquery_dataset.osrs_economy.dataset_id
 
-  schema = file(var.bigquery_items_schema)
+  schema = file(var.bigquery_items_table_schema)
 }
 
 resource "google_bigquery_table" "item_prices" {
-  table_id   = "prices"
+  table_id   = var.bigquery_bronze_prices_table_name
   dataset_id = google_bigquery_dataset.osrs_economy.dataset_id
-
-  schema = file(var.bigquery_prices_schema)
+  schema     = file(var.bigquery_bronze_prices_table_schema)
 }

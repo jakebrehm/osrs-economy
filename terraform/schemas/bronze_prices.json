@@ -14,7 +14,7 @@
     {
       "name" : "volume",
       "type" : "INTEGER",
-      "mode" : "REQUIRED",
+      "mode" : "NULLABLE",
       "description" : "The volume of the item."
     },
     {
