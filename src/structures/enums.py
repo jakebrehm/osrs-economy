@@ -25,8 +25,8 @@ class StorageMode(Enum):
     CLOUD = auto()
 
 
-class ResultType(Enum):
-    """The available result types for the project."""
+class StorageItem(Enum):
+    """The available Storage items for the project."""
 
     DETAILS = auto()
     PRICES = auto()
@@ -34,11 +34,22 @@ class ResultType(Enum):
     def filename(self, config: Config) -> str:
         """Gets the filename for the result."""
         match self:
-            case ResultType.DETAILS:
+            case StorageItem.DETAILS:
                 return "details.json"
-            case ResultType.PRICES:
+            case StorageItem.PRICES:
                 return f"prices_{config.CREATED}.json"
 
     def bucket(self, config: Config) -> str:
         """Gets the bucket name for the result."""
         return config.get("buckets", self.name.lower())
+
+
+class BigQueryItem(Enum):
+    """The available BigQuery items for the project."""
+
+    ITEMS = auto()
+    PRICES = auto()
+
+    def table(self, config: Config) -> str:
+        """Gets the table name for the result."""
+        return config.get("tables", self.name.lower())

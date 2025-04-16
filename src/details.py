@@ -4,20 +4,23 @@ Generates a JSON file with all tradeable items in the game.
 
 import json
 
+import pandas as pd
 import requests
 from tqdm import tqdm
 
-from .config import Config, DataHandler
-from .structures.enums import ResultType
+from .cloud.bigquery.handler import BigQueryHandler
+from .cloud.storage.handler import StorageHandler
+from .config import Config
+from .structures.enums import BigQueryItem, StorageItem, StorageMode
 from .utilities import get_iso_datetime, wait_for_okay
 
 
 def get_item_details(config: Config) -> dict:
     """Gets the details for all tradeable items from a JSON file."""
-    result_type = ResultType.DETAILS
+    result_type = StorageItem.DETAILS
     filename = result_type.filename
     try:
-        with DataHandler.from_config(config) as handler:
+        with StorageHandler.from_config(config) as handler:
             return handler.load(result_type)
     except FileNotFoundError:
         tqdm.write(f"Error occurred while opening JSON file '{filename}'.")
@@ -190,12 +193,30 @@ def save_item_details(data: dict, config: Config) -> dict:
     )
 
     # Save the data to a JSON file and return
-    with DataHandler.from_config(config) as handler:
-        handler.save(ResultType.DETAILS, data)
+    with StorageHandler.from_config(config) as handler:
+        handler.save(StorageItem.DETAILS, data)
     return data
+
+
+def upload_item_details(data: dict, config: Config) -> None:
+    """Uploads the item prices to BigQuery."""
+    records = list(data["items"].values())
+    columns = ["id", "name", "description", "is_members", "updated_at"]
+    df = pd.DataFrame.from_records(records, columns=columns)
+    df["updated_at"] = pd.to_datetime(
+        df["updated_at"],
+        format="ISO8601",
+        utc=True,
+    )
+    with BigQueryHandler(config) as handler:
+        handler.truncate(BigQueryItem.ITEMS)
+        handler.upload(BigQueryItem.ITEMS, df)
 
 
 def generate_item_details(config: Config) -> dict:
     """Generates the item details file from start to finish."""
     details_data = get_item_details(config=config)
-    return fetch_item_details(details_data, config=config)
+    result = fetch_item_details(details_data, config=config)
+    if config.storage_mode == StorageMode.CLOUD:
+        upload_item_details(result, config=config)
+    return result

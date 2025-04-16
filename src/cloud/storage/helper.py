@@ -1,5 +1,5 @@
 """
-Handles interactions with the cloud.
+Handles interactions with Google Storage.
 """
 
 import datetime as dt

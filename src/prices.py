@@ -7,9 +7,11 @@ import time
 import requests
 from tqdm import tqdm
 
-from .config import Config, DataHandler
+from .cloud.bigquery.handler import BigQueryHandler
+from .cloud.storage.handler import StorageHandler
+from .config import Config
 from .details import get_item_details
-from .structures.enums import ResultType
+from .structures.enums import BigQueryItem, StorageItem, StorageMode
 from .utilities import as_chunks
 
 
@@ -69,13 +71,21 @@ def fetch_item_prices(
 
 def save_item_prices(data: dict, config: Config) -> dict:
     """Saves the item prices to a JSON file and returns the dictionary."""
-    with DataHandler.from_config(config) as handler:
-        handler.save(ResultType.PRICES, data)
+    with StorageHandler.from_config(config) as handler:
+        handler.save(StorageItem.PRICES, data)
     return data
+
+
+def upload_item_prices(data: dict, config: Config) -> None:
+    """Uploads the item prices to BigQuery."""
+    # TODO: Create BigQueryHandler
 
 
 def generate_item_prices(config: Config) -> dict:
     """Generates the item prices file from start to finish."""
     details_data = get_item_details(config=config)
     item_ids = list(details_data["items"].keys())
-    return fetch_item_prices(item_ids, config=config)
+    result = fetch_item_prices(item_ids, config=config)
+    if config.storage_mode == StorageMode.CLOUD:
+        upload_item_prices(result, config=config)
+    return result

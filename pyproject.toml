@@ -5,7 +5,9 @@ description = "An ELT project that aims to store and analyze tradable items in O
 readme = "readme.md"
 requires-python = ">=3.11"
 dependencies = [
+    "google-cloud-bigquery>=3.31.0",
     "google-cloud-storage>=3.1.0",
+    "pandas>=2.2.3",
     "requests>=2.32.3",
     "tqdm>=4.67.1",
 ]
