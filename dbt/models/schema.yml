@@ -1,0 +1,47 @@
+version: 2
+
+models:
+  
+  - name: "{{ env_var('DBT_BQ_VIEW_PRICES_DAILY') }}"
+    description: This model contains min, max, and average prices for each item on each day.
+    columns:
+      - name: id
+        description: The id of the item.
+        tests:
+          - not_null
+          - relationships:
+              field: id
+              to: source("bronze", "{{ env_var('DBT_BQ_TABLE_ITEMS') }}")
+      - name: name
+        description: The name of the item.
+      - name: description
+        description: The description of the item.
+      - name: min_price
+        description: The minimum price of the item on the record's date.
+      - name: max_price
+        description: The maximum price of the item on the record's date.
+      - name: avg_price
+        description: The average price of the item on the record's date.
+      - name: recorded_date
+        description: The date of the record.
+  
+  - name: "{{ env_var('DBT_BQ_VIEW_PRICES_OVERVIEW') }}"
+    description: This model contains min, max, and average prices for each item over the last week.
+    columns:
+      - name: id
+        description: The id of the item.
+        tests:
+          - not_null
+          - relationships:
+              field: id
+              to: source("bronze", "{{ env_var('DBT_BQ_TABLE_ITEMS') }}")
+      - name: name
+        description: The name of the item.
+      - name: description
+        description: The description of the item.
+      - name: min_price
+        description: The minimum price of the item over the time period.
+      - name: max_price
+        description: The maximum price of the item over the time period.
+      - name: avg_price
+        description: The average price of the item over the time period.
