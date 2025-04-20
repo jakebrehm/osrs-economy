@@ -1,0 +1,25 @@
+name: 'osrs_economy'
+version: '1.0.0'
+config-version: 2
+
+profile: 'default'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  osrs_economy:
+    +materialized: view
+  
+vars:
+  items_table: "{{ source('bronze', env_var('DBT_BQ_TABLE_ITEMS')) }}"
+  prices_table: "{{ source('bronze', env_var('DBT_BQ_TABLE_PRICES')) }}"

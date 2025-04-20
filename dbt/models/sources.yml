@@ -1,0 +1,12 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: This is the main item data extracted via API.
+    database: "{{ env_var('DBT_BQ_PROJECT') }}"
+    schema: "{{ env_var('DBT_BQ_DATASET') }}"
+    tables:
+      - name: "{{ env_var('DBT_BQ_TABLE_ITEMS') }}"
+        description: Details of each tradable item in the game. One row for each item.
+      - name: "{{ env_var('DBT_BQ_TABLE_PRICES') }}"
+        description: Price and trade data for each item. Can contain multiple records for each item.
