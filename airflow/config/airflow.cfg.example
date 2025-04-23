@@ -1,0 +1,10 @@
+[core]
+internal_api_secret_key=very_secure_example_key
+
+[api_auth]
+jwt_expiration_time=86400
+jwt_cli_expiration_time=3600
+jwt_secret=very_secure_example_key
+
+[webserver]
+secret_key=very_secure_example_key

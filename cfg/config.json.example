@@ -1,6 +1,5 @@
 {
-    "project_name": "OSRS Economy Tracker",
-    "user_agent": "OSRS Economy Tracker - Personal Project (jake.m.brehm@gmail.com)",
+    "user_agent": "A description of your project (with a way to contact you)",
     "timeout": 10,
     "endpoints": {
         "wiki": "https://prices.runescape.wiki/api/v1/osrs/latest",

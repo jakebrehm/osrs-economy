@@ -6,7 +6,14 @@ import datetime as dt
 import json
 import time
 from pathlib import Path
-from typing import Any, Iterable, Iterator
+from typing import Any, Iterable, Iterator, NoReturn
+
+
+def validate_directory(path: str) -> Path | NoReturn:
+    """Checks if a directory is valid, otherwise raises an exception."""
+    if (path_obj := Path(path)).is_dir():
+        return path_obj
+    raise NotADirectoryError(f"Directory '{path}' does not exist.")
 
 
 def to_path(path: str | Path | None, default: str) -> Path:
