@@ -12,6 +12,7 @@ __pycache__/
 
 # Project specific
 ide/
+cfg/config.json
 cfg/secrets.json
 data/ignore/
 notebooks/
