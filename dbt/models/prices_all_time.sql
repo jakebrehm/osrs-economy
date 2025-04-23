@@ -1,27 +1,22 @@
-{{ config(alias=env_var('DBT_BQ_VIEW_PRICES_ALL_TIME')) }}
+{{ config(alias=env_var("DBT_BQ_VIEW_PRICES_ALL_TIME")) }}
 
-WITH all_time_prices AS (
-    SELECT
-        p.item_id AS id
-        ,MIN(p.price) AS min_price
-        ,MAX(p.price) AS max_price
-        ,AVG(p.price) AS avg_price
-    FROM
-        {{ var('prices_table') }} p
-    GROUP BY
-        p.item_id
-)
+with
+    all_time_prices as (
+        select
+            p.item_id as id,
+            min(p.price) as min_price,
+            max(p.price) as max_price,
+            avg(p.price) as avg_price
+        from {{ var("prices_table") }} p
+        group by p.item_id
+    )
 
-SELECT
-    i.id
-    ,i.name
-    ,i.description
-    ,CAST(a.min_price AS INT64) AS min_price
-    ,CAST(a.max_price AS INT64) AS max_price
-    ,CAST(a.avg_price AS INT64) AS avg_price
-FROM
-    all_time_prices a
-INNER JOIN
-    {{ var('items_table') }} i
-    ON
-    i.id = a.id
+select
+    i.id,
+    i.name,
+    i.description,
+    cast(a.min_price as int64) as min_price,
+    cast(a.max_price as int64) as max_price,
+    cast(a.avg_price as int64) as avg_price
+from all_time_prices a
+inner join {{ var("items_table") }} i on i.id = a.id
