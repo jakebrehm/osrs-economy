@@ -88,7 +88,10 @@ def upload_item_prices(data: dict, config: Config) -> None:
         utc=True,
     )
     with BigQueryHandler(config) as handler:
-        handler.upload(BigQueryItem.PRICES, df)
+        errors = handler.upload(BigQueryItem.PRICES, df)
+        if any(item for item in errors):
+            tqdm.write("Errors occurred while handling prices.")
+            tqdm.write(errors)
 
 
 def generate_item_prices(config: Config) -> dict:

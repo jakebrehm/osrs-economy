@@ -30,3 +30,11 @@ terraform/*
 dbt/target/
 dbt/dbt_packages/
 dbt/logs/
+
+# Airflow
+.env
+airflow/.env
+airflow/config/*
+!airflow/config/airflow.cfg.example
+airflow/logs/*
+airflow/plugins/*

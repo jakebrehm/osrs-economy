@@ -1,5 +1,4 @@
 {
-    "project_name": "OSRS Economy Tracker",
     "user_agent": "OSRS Economy Tracker - Personal Project (jake.m.brehm@gmail.com)",
     "timeout": 10,
     "endpoints": {

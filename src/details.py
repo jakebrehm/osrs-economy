@@ -210,7 +210,10 @@ def upload_item_details(data: dict, config: Config) -> None:
     )
     with BigQueryHandler(config) as handler:
         handler.truncate(BigQueryItem.ITEMS)
-        handler.upload(BigQueryItem.ITEMS, df)
+        errors = handler.upload(BigQueryItem.ITEMS, df)
+        if any(item for item in errors):
+            tqdm.write("Errors occurred while handling details.")
+            tqdm.write(errors)
 
 
 def generate_item_details(config: Config) -> dict:

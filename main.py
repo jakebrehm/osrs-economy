@@ -8,11 +8,12 @@ from src.config import Config
 from src.details import generate_item_details
 from src.prices import generate_item_prices
 from src.structures.enums import ExecutionMode, StorageMode
+from src.utilities import validate_directory
 
 
-def parse_arguments(config: Config) -> None:
+def parse_arguments() -> argparse.Namespace:
     """Parses the command line arguments."""
-    parser = argparse.ArgumentParser(description=config["project_name"])
+    parser = argparse.ArgumentParser(description="OSRS Economy Tracker")
     parser.add_argument(
         "mode",
         nargs="?",
@@ -27,6 +28,18 @@ def parse_arguments(config: Config) -> None:
         default=StorageMode.LOCAL.name.lower(),
         help="The location to store resulting data.",
     )
+    parser.add_argument(
+        "--config",
+        default=None,
+        type=validate_directory,
+        help="The location of the config directory.",
+    )
+    parser.add_argument(
+        "--data",
+        default=None,
+        type=validate_directory,
+        help="The location of the data directory.",
+    )
     args = parser.parse_args()
     args.mode = ExecutionMode[args.mode.upper()]
     args.storage = StorageMode[args.storage.upper()]
@@ -36,14 +49,15 @@ def parse_arguments(config: Config) -> None:
 def main() -> None:
     """The main function."""
 
-    # Create a config object
-    config = Config()
-
     # Parse the command line arguments
-    args = parse_arguments(config)
+    args = parse_arguments()
 
-    # Set the storage mode
-    config.storage_mode = args.storage
+    # Set the appropriate directories and storage mode
+    config = Config(
+        config_directory=args.config,
+        data_directory=args.data,
+        storage_mode=args.storage,
+    )
 
     # Execute the selected function
     match args.mode:
