@@ -11,12 +11,12 @@ http://www.nncron.ru/help/EN/working/cron-format.htm
 import datetime as dt
 
 from airflow import DAG
-from airflow.operators.bash import BashOperator
+from airflow.providers.standard.operators.bash import BashOperator
 
 with DAG(
     dag_id="prices",
     description="Ingest price information for OSRS items.",
-    schedule="* 0-23/2 * * *",
+    schedule=dt.timedelta(hours=2),
     start_date=dt.datetime(2025, 1, 1),
     catchup=False,
     max_active_runs=1,
