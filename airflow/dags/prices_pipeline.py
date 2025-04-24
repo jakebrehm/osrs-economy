@@ -2,10 +2,6 @@
 Contains the DAG for the prices pipeline. Extracts data from the relevant APIs,
 stores the data in json format in Storage Buckets, and then loads it into
 BigQuery.
-
-This DAG is scheduled to run every 4 hours using the CRON format. For more
-information on the CRON format, see:
-http://www.nncron.ru/help/EN/working/cron-format.htm
 """
 
 import datetime as dt
