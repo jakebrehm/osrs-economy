@@ -3,6 +3,7 @@ Generates a JSON file with curent prices for all tradeable items in the game.
 """
 
 import time
+import uuid
 
 import pandas as pd
 import requests
@@ -82,6 +83,7 @@ def upload_item_prices(data: dict, config: Config) -> None:
     records = list(data.values())
     df = pd.DataFrame.from_records(records)
     df.columns = ["item_id", "timestamp", "price", "volume"]
+    df["uuid"] = df.apply(lambda _: str(uuid.uuid4()), axis=1)
     df["timestamp"] = pd.to_datetime(
         df["timestamp"],
         format="ISO8601",

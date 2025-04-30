@@ -1,5 +1,11 @@
 [
   {
+    "name" : "uuid",
+    "type" : "STRING",
+    "mode" : "REQUIRED",
+    "description" : "The unqiue identifier for the price record."
+  },
+  {
     "name" : "item_id",
     "type" : "INTEGER",
     "mode" : "REQUIRED",
