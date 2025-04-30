@@ -1,6 +1,25 @@
 version: 2
 
 models:
+  - name: prices_latest
+    description: This model contains the most recent price for each item.
+    columns:
+      - name: id
+        description: The id of the item.
+        tests:
+          - not_null
+          - relationships:
+              field: id
+              to: source("bronze", env_var('DBT_BQ_TABLE_ITEMS'))
+      - name: price
+        description: The most recent price of the item.
+      - name: name
+        description: The name of the item.
+      - name: description
+        description: The description of the item.
+      - name: recorded_at
+        description: The datetime of the record.
+
   - name: prices_daily
     description: This model contains daily min, max, and average prices for each item.
     columns:
