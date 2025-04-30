@@ -25,6 +25,13 @@ resource "google_storage_bucket" "osrs_prices" {
   force_destroy = true
 }
 
+resource "google_storage_bucket_iam_member" "member" {
+  provider = google
+  bucket   = google_storage_bucket.osrs_details.name
+  role     = "roles/storage.objectViewer"
+  member   = "allUsers"
+}
+
 resource "google_bigquery_dataset" "osrs_economy" {
   dataset_id = var.bigquery_dataset_name
   location   = var.bigquery_dataset_location
