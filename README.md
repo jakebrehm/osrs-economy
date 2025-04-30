@@ -55,7 +55,10 @@ Please refer to the architecture diagram below for a visual representation of th
 
 Data was extracted from the sources listed in the [Data Sources](#data-sources) section. To do this, a supporting Python library (located in the `src` directory) was created to extract data from the various sources. This library handles making requests to the various APIs, performing the bare minimum amount of data wrangling to get the data into the desired format for loading, and interacting with the appropriate cloud services.
 
-The extraction and loading processes were orchestrated using an Airflow and containerized using Docker. The Airflow DAG runs 12 times per day; this seemed like a reasonable number of runs in order to get some variance in price data, and to ensure that an interesting amount of data was being ingested.
+The extraction and loading processes were orchestrated using an Airflow and containerized using Docker.
+
+- The Airflow DAG to ingest item details runs _hourly_, mostly because it only fully runs if an item is missing or if current details are outdated (the threshold for which is an adjustable setting).
+- The DAG to ingest price data runs _12 times per day_; this seemed like a reasonable frequency to get some variance in price data and to ensure that an interesting amount of data was being ingested.
 
 ### Load
 
@@ -96,7 +99,7 @@ If I had to start this project from scratch or rework it in the future, I would 
   - I'm not sure exactly what I would have preferred to do instead, but this part of the architecture feels like it doesn't flow smoothly with Airflow. - Honestly, even if this is a good example of how a project can be over-engineered, it helps me exercise my general software engineering design skills, so I'm not super worried about changing this.
 - Utilize Airflow DAGs more effectively.
   - Initially, Airflow was not going to be used for this project, so its addition was done relatively haphazardly.
-  - Currently, only a single DAG is being used to ingest the data, but this process could be split into multiple DAGs to improve the robustness and transparency of the process.
+  - Currently, only two DAGs are being used--one to ingest item details and another to ingest prices--but these processes could each be split into multiple DAGs to improve their robustness and transparency.
   - This would also allow for extracted data to be stored in Cloud Storage and BigQuery in parallel instead of sequentially.
   - I have no regrets adding it to the project, but since its inclusion was born from feature creep, the execution could definitely be improved.
 - Add an autoincrementing primary key to the prices tables.
