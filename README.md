@@ -21,9 +21,6 @@
 
 ## Introduction
 
-> [!NOTE]
-> This project is currently in the final stages of development, thus this file is still a work in progress.
-
 This project aims to monitor the economy of [Old School RuneScape](https://oldschool.runescape.com/) by employing an ELT pipeline to extract data from various APIs and load it into a database for analysis and visualization.
 
 It is **completely, but intentionally, over-engineered**. The final product could have been achieved with a much simpler tech stack, but the goal of and motivation for this project was to further develop skills with industry-standard tools and incorporate them into a simple, yet powerful project.
@@ -85,9 +82,6 @@ Transformations were applied to the data and the gold layer of the database was 
 
 A [report](https://tinyurl.com/osrs-economy) was created to visualize the data. It is fairly barebones, since creating a beautiful report is not the goal of this project; it is simply a way to show that the data exists and is able to be visualized and analyzed. That said, I may improve this report in the future.
 
-> [!NOTE]
-> The visualization is still actively being worked on.
-
 ## Improvements
 
 A project is never truly _done_ since someone who cares about their work will always see little things that could have been done differently. In my case, I got the output I initially wanted, so I simply wanted to move onto my next project.
@@ -98,7 +92,7 @@ If I had to start this project from scratch or rework it in the future, I would 
   - The _WeirdGloop_ API is currently being used to fetch item prices, but the _Wiki_ API could be used for this purpose on top of its existing functionality.
   - This would improve complexity by decreasing the number of APIs being used from 3 to 2.
 - Rework the `src` directory.
-  - Since Airflow was added into the project late in development, the extract and load processes were originally envisioned as a command-line tool; this can be seen in `main.py`.
+  - Since Airflow was added into the project late in development, the extract and load processes were originally envisioned as a command-line tool; the remnants of this can be seen in `main.py`.
   - I'm not sure exactly what I would have preferred to do instead, but this part of the architecture feels like it doesn't flow smoothly with Airflow. - Honestly, even if this is a good example of how a project can be over-engineered, it helps me exercise my general software engineering design skills, so I'm not super worried about changing this.
 - Utilize Airflow DAGs more effectively.
   - Initially, Airflow was not going to be used for this project, so its addition was done relatively haphazardly.
