@@ -90,8 +90,8 @@ A project is never truly _done_ since someone who cares about their work will al
 If I had to start this project from scratch or rework it in the future, I would take the following lessons and potential improvements into account:
 
 - Simplify the data extraction process.
-  - Fetch item prices with the _WeirdGloop_ API with the _Wiki_ API, which is already being used for item details.
-  - The prices from the _Wiki_ API might even be more accurate.
+  - Fetch item prices with the _Wiki_ API instead of the _WeirdGloop_ API.
+  - The prices from the _Wiki_ API are closer to real-time, and it's already being used for item details.
 - Rework the `src` directory.
   - Before deciding to add Airflow late in development, the project was a command-line tool
     - The remnants of this can be seen in `main.py` and in the Airflow DAGs.
