@@ -1,10 +1,10 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/banner.png" alt="OSRS Economy Banner" style="width: 100%;"/>
+<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/banner.png" alt="OSRS Economy Banner" style="width: 100%; padding-bottom: 10px;"/>
 
 <br>
 
-<p>An ELT pipeline to monitor the economy of Old School RuneScape.</p>
+<p>An <strong>ELT pipeline</strong> to monitor the economy of <em>Old School RuneScape</em>.</p>
 
 </div>
 
@@ -58,7 +58,7 @@ Please refer to the architecture diagram below for a visual representation of th
 
 Data was extracted from the sources listed in the [Data Sources](#data-sources) section. To do this, a supporting Python library (located in the `src` directory) was created to extract data from the various sources. This library handles making requests to the various APIs, performing the bare minimum amount of data wrangling to get the data into the desired format for loading, and interacting with the appropriate cloud services.
 
-The extraction and loading processes were orchestrated using an Airflow and containerized using Docker. The Airflow DAG runs 12 times per day; this seemed like a reasonable amount of time to wait between runs in ordered to get a reasonable variance in price data, and to ensure that an interesting amount of data was being ingested.
+The extraction and loading processes were orchestrated using an Airflow and containerized using Docker. The Airflow DAG runs 12 times per day; this seemed like a reasonable number of runs in order to get some variance in price data, and to ensure that an interesting amount of data was being ingested.
 
 ### Load
 
@@ -72,7 +72,7 @@ The database follows a [medallion architecture](https://www.databricks.com/gloss
 
 Typically, the bronze layer is where raw data is loaded, the silver layer is for cleaned and transformed data, and the gold layer is aggregated data that is used for the final analysis and visualization.
 
-The extracted data was already quite clean, so the silver layer was not necessary and was omitted so as to not overcomplicate the project (more than has already been done).
+The extracted data was already quite clean, thus the silver layer was omitted so as to not overcomplicate the project (more than has already been done).
 
 > [!NOTE]
 > Please keep in mind that the intention of this project is not to have a sprawling, massive database, but rather to have a relatively simple database that provides a foundation to use more advanced tools.
@@ -83,7 +83,7 @@ Transformations were applied to the data and the gold layer of the database was 
 
 ### Visualize
 
-A [report](<(https://tinyurl.com/osrs-economy)>) was created to visualize the data. It is fairly barebones, since creating a beautiful report is not the goal of this project; it is simply a way to show that the data exists and is able to be visualized and analyzed. That said, I may improve this report in the future.
+A [report](https://tinyurl.com/osrs-economy) was created to visualize the data. It is fairly barebones, since creating a beautiful report is not the goal of this project; it is simply a way to show that the data exists and is able to be visualized and analyzed. That said, I may improve this report in the future.
 
 > [!NOTE]
 > The visualization is still actively being worked on.
