@@ -22,7 +22,7 @@ class Config:
     SECRETS_FILENAME: str = "secrets.json"
     GOOGLE_CREDENTIALS_FILENAME: str = "gcp-credentials.json"
 
-    CREATED = dt.datetime.now(dt.timezone.utc).strftime(r"%Y-%m-%dT%H:%M:%S")
+    CREATED = dt.datetime.now(dt.timezone.utc)
 
     def __init__(
         self,

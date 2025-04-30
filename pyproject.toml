@@ -5,7 +5,7 @@ description = "An ELT project that aims to store and analyze tradable items in O
 readme = "readme.md"
 requires-python = ">=3.11"
 dependencies = [
-    "apache-airflow>=2.10.5",
+    "apache-airflow>=3.0.0",
     "google-cloud-bigquery>=3.31.0",
     "google-cloud-storage>=3.1.0",
     "pandas>=2.2.3",
@@ -15,6 +15,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "ipykernel>=6.29.5",
     "ruff>=0.11.5",
 ]
 

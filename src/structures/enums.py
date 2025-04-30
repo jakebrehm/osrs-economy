@@ -37,7 +37,8 @@ class StorageItem(Enum):
             case StorageItem.DETAILS:
                 return "details.json"
             case StorageItem.PRICES:
-                return f"prices_{config.CREATED}.json"
+                created = config.CREATED.strftime(r"%Y-%m-%dT%H:%M:%S")
+                return f"prices_{created}.json"
 
     def bucket(self, config: Config) -> str:
         """Gets the bucket name for the result."""

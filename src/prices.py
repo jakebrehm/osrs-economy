@@ -81,12 +81,13 @@ def upload_item_prices(data: dict, config: Config) -> None:
     """Uploads the item prices to BigQuery."""
     records = list(data.values())
     df = pd.DataFrame.from_records(records)
-    df.columns = ["item_id", "recorded_at", "price", "volume"]
-    df["recorded_at"] = pd.to_datetime(
-        df["recorded_at"],
+    df.columns = ["item_id", "timestamp", "price", "volume"]
+    df["timestamp"] = pd.to_datetime(
+        df["timestamp"],
         format="ISO8601",
         utc=True,
     )
+    df["recorded_at"] = config.CREATED
     with BigQueryHandler(config) as handler:
         errors = handler.upload(BigQueryItem.PRICES, df)
         if any(item for item in errors):
