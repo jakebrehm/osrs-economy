@@ -66,7 +66,7 @@ The extracted data was loaded into Cloud Storage buckets for archival purposes, 
 
 See below for an ER diagram of the BigQuery database.
 
-<!-- TODO: Insert ER Diagram -->
+<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/er-diagram.png" alt="OSRS Economy ELT ER Diagram" style="width: 100%;"/>
 
 The database follows a [medallion architecture](https://www.databricks.com/glossary/medallion-architecture), which is a design pattern that allows for the separation of concerns between the data layer and the application layer.
 
@@ -90,19 +90,23 @@ A [report](https://tinyurl.com/osrs-economy) was created to visualize the data. 
 
 ## Improvements
 
-If I had to start this project from scratch or rework it in the future, I would improve the following:
+A project is never truly _done_ since someone who cares about their work will always see little things that could have been done differently. In my case, I got the output I initially wanted, so I simply wanted to move onto my next project.
+
+If I had to start this project from scratch or rework it in the future, I would take the following lessons and potential improvements into account:
 
 - Simplify the data extraction process.
   - The _WeirdGloop_ API is currently being used to fetch item prices, but the _Wiki_ API could be used for this purpose on top of its existing functionality.
   - This would improve complexity by decreasing the number of APIs being used from 3 to 2.
 - Rework the `src` directory.
-  - Since Airflow was added into the project late in development, the extract and load processes were originally envisioned as a command-line tool; this can be seeing by seeing `main.py`.
+  - Since Airflow was added into the project late in development, the extract and load processes were originally envisioned as a command-line tool; this can be seen in `main.py`.
   - I'm not sure exactly what I would have preferred to do instead, but this part of the architecture feels like it doesn't flow smoothly with Airflow. - Honestly, even if this is a good example of how a project can be over-engineered, it helps me exercise my general software engineering design skills, so I'm not super worried about changing this.
 - Utilize Airflow DAGs more effectively.
   - Initially, Airflow was not going to be used for this project, so its addition was done relatively haphazardly.
   - Currently, only a single DAG is being used to ingest the data, but this process could be split into multiple DAGs to improve the robustness and transparency of the process.
   - This would also allow for extracted data to be stored in Cloud Storage and BigQuery in parallel instead of sequentially.
   - I have no regrets adding it to the project, but since its inclusion was born from feature creep, the execution could definitely be improved.
+- Add an autoincrementing primary key to the prices tables.
+  - I meant to do this in the first place, but then I forgot. Then, suddenly, I was in too deep and it turns out I didn't have an urgent need for it anyways.
 - Use tables instead of views for the gold layer.
   - Currently, the gold layer entities created using dbt are views, but these are traditionally tables.
   - The only reason I chose to use views was because I wanted to avoid extraneous storage costs, but after working with the project for a while, it became obvious that storage costs were not a concern anyways.
