@@ -101,9 +101,6 @@ If I had to start this project from scratch or rework it in the future, I would 
   - Currently, there are only two DAGs: one to ingest item details and another to ingest prices.
   - These DAGs could each be split into multiple DAGs to improve robustness and transparency.
   - Extracted data could be stored in Cloud Storage and BigQuery in parallel instead of sequentially.
-- Add an autoincrementing primary key to the prices tables.
-  - I meant to go back and do this, but by the time I did, it wasn't worth the development time.
-  - It turns out I didn't have an urgent need for it anyways, but it would be nice to have it.
 - Use tables instead of views for the gold layer.
   - Currently, the gold layer entities created using dbt are views, but these would traditionally be tables.
   - I chose to use views to avoid extraneous storage costs, but with time it became clear this wasn't a concern.
