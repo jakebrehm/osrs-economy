@@ -40,6 +40,12 @@ def write_json(filename: str, data: Any, indent: int = 4) -> None:
         json.dump(data, f, indent=indent)
 
 
+def write_image(filename: str, data: bytes) -> None:
+    """Writes data to a file."""
+    with open(filename, "wb") as f:
+        f.write(data)
+
+
 def get_iso_datetime() -> dt.datetime:
     """Gets the current date and time in ISO format."""
     return dt.datetime.now(dt.timezone.utc).isoformat()

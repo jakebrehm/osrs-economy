@@ -47,6 +47,21 @@ def upload_file_to_storage(
     blob.upload_from_filename(source)
 
 
+def upload_image_to_storage(
+    bucket: storage.Bucket,
+    data: bytes,
+    destination: str,
+    content_type: str | None = None,
+) -> None:
+    """Uploads an image (as bytes) to the provided storage bucket.
+
+    Requires the bucket object to be uploaded to, the image as bytes, and
+    the destination file path.
+    """
+    blob = get_storage_blob(bucket, destination)
+    blob.upload_from_string(data, content_type=content_type)
+
+
 def upload_json_to_storage(
     bucket: storage.Bucket,
     data: dict | list | str,

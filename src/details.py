@@ -2,9 +2,12 @@
 Generates a JSON file with all tradeable items in the game.
 """
 
+import datetime as dt
 import json
+import random
 
 import pandas as pd
+import pytz
 import requests
 from tqdm import tqdm
 
@@ -46,7 +49,6 @@ def get_item_ids(config: Config) -> list[int]:
 def get_item_details_from_id(
     item_id: int,
     config: Config,
-    raw: bool = False,
 ) -> dict:
     """Gets the details for a specific item ID.
 
@@ -63,8 +65,21 @@ def get_item_details_from_id(
         timeout=config.get("timeout"),
     )
     response.raise_for_status()
-    result = response.json()["item"]
-    return result if raw else clean_item_details(result)
+    return response.json()["item"]
+
+
+def randomly_select_ids(items: dict, config: Config) -> list[int]:
+    """Randomly selects outdated items from the provided dictionary."""
+    threshold_days = config.get("minimum_days_before_update")
+    chunk_size = config.get("update_chunk_size")
+    outdated_items = []
+    for item_id, details in items.items():
+        last_updated = dt.datetime.fromisoformat(details["updated_at"])
+        cutoff = dt.datetime.now(pytz.utc) - dt.timedelta(days=threshold_days)
+        if last_updated < cutoff:
+            outdated_items.append(item_id)
+    tqdm.write(f"Found {len(outdated_items)} outdated items.")
+    return random.sample(outdated_items, k=chunk_size)
 
 
 def fetch_item_details(
@@ -91,17 +106,19 @@ def fetch_item_details(
     details = data["items"]
     invalid_ids = data["invalid"]
     existing_ids = [int(item_id) for item_id in details]
+    outdated_ids = randomly_select_ids(details, config=config)
     missing_ids = list(set(all_ids) - set(existing_ids) - set(invalid_ids))
+    ids_to_fetch = missing_ids + outdated_ids
 
     # Return if there are no missing items
-    if not missing_ids:
+    if not ids_to_fetch:
         tqdm.write("All items are up to date.")
         return data
 
     # Initialize the progress bar
     tqdm_bar = tqdm(
         total=len(all_ids),
-        initial=len(existing_ids),
+        initial=len(existing_ids) - len(outdated_ids),
         desc="Fetching",
         unit="item",
         leave=False,
@@ -110,10 +127,12 @@ def fetch_item_details(
     # Continuously fetch missing item details until all items are fetched
     interrupted = False
     unsaved_count = 0
-    max_length = len(str(max(missing_ids)))
-    for item_id in missing_ids:
+    max_length = len(str(max(ids_to_fetch)))
+    for item_id in ids_to_fetch:
         try:
-            missing_details = get_item_details_from_id(item_id, config=config)
+            item_details = get_item_details_from_id(item_id, config=config)
+            icon_url = item_details.get("icon", None)
+            item_details = clean_item_details(item_details)
         except KeyboardInterrupt:
             interrupted = True
         except (requests.exceptions.RequestException, json.JSONDecodeError):
@@ -123,11 +142,15 @@ def fetch_item_details(
             unsaved_count += 1
             data["invalid"].append(item_id)
         else:
-            data["items"][item_id] = missing_details
+            data["items"][item_id] = item_details
             tqdm_bar.set_description("Fetching")
-            tqdm.write(f"✔️ {item_id:>{max_length}}: {missing_details['name']}")
+            tqdm.write(f"✔️ {item_id:>{max_length}}: {item_details['name']}")
             tqdm_bar.update(1)
             unsaved_count += 1
+        # Save each image to Cloud Storage
+        if icon_url is not None:
+            tqdm.write("Saving item icon...")
+            upload_item_icon(icon_url, item_id, config=config)
         # Save the unsaved details if the chunk size is reached
         if unsaved_count >= chunk_size:
             unsaved_count = 0
@@ -158,7 +181,6 @@ def clean_item_details(item_details: dict) -> dict:
         "name",
         "description",
         "members",
-        "updated_at",
     ]
     # Remove any undesired keys and return
     item_details = {
@@ -196,6 +218,15 @@ def save_item_details(data: dict, config: Config) -> dict:
     with StorageHandler.from_config(config) as handler:
         handler.save(StorageItem.DETAILS, data)
     return data
+
+
+def upload_item_icon(url: str, item_id: int, config: Config) -> None:
+    """Uploads the item icons to Cloud Storage."""
+    response = requests.get(url)
+    response.raise_for_status()
+    filename = f"images/{item_id}.gif"
+    with StorageHandler.from_config(config) as handler:
+        handler.save_image(StorageItem.DETAILS, response.content, filename)
 
 
 def upload_item_details(data: dict, config: Config) -> None:

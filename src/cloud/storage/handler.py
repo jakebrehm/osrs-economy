@@ -4,15 +4,17 @@ Contains the StorageHandler and related classes.
 
 from __future__ import annotations
 
+import os
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, Self
 
 from ...structures.enums import StorageItem, StorageMode
-from ...utilities import read_json, write_json
+from ...utilities import read_json, write_image, write_json
 from .helper import (
     download_json_from_storage,
     get_storage_bucket,
     get_storage_client,
+    upload_image_to_storage,
     upload_json_to_storage,
 )
 
@@ -36,6 +38,16 @@ class StorageHandler(ABC):
     @abstractmethod
     def load(self, which: StorageItem) -> Any:
         """Loads the data from the desired storage location."""
+        ...
+
+    @abstractmethod
+    def save_image(
+        self,
+        which: StorageItem,
+        data: bytes,
+        filename: str,
+    ) -> None:
+        """Saves data as bytes to the cloud storage location."""
         ...
 
     @abstractmethod
@@ -80,6 +92,16 @@ class LocalStorageHandler(StorageHandler):
         destination = self.config.get_data_path(which.filename(self.config))
         return read_json(destination)
 
+    def save_image(
+        self,
+        which: StorageItem,
+        data: bytes,
+        filename: str,
+    ) -> None:
+        """Saves data as bytes to the cloud storage location."""
+        destination = self.config.get_data_path(f"images/{filename}")
+        write_image(destination, data)
+
     def __enter__(self) -> Self:
         """Enters the context manager."""
         return self
@@ -120,6 +142,18 @@ class CloudStorageHandler(StorageHandler):
         """Loads the data from the cloud storage location."""
         bucket = get_storage_bucket(self._client, which.bucket(self.config))
         return download_json_from_storage(bucket, which.filename(self.config))
+
+    def save_image(
+        self,
+        which: StorageItem,
+        data: bytes,
+        filename: str,
+    ) -> None:
+        """Saves an image (as bytes) to the cloud storage location."""
+        bucket = get_storage_bucket(self._client, which.bucket(self.config))
+        extension = os.path.splitext(filename)[1].removeprefix(".")
+        content_type = f"image/{extension}"
+        upload_image_to_storage(bucket, data, filename, content_type)
 
     def __enter__(self) -> Self:
         """Enters the context manager."""
