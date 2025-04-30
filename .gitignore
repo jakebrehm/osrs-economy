@@ -14,8 +14,10 @@ __pycache__/
 ide/
 cfg/config.json
 cfg/secrets.json
-data/ignore/
+data/*
+!data/images
 notebooks/
+!.gitkeep
 *.ipynb
 *_test.*
 

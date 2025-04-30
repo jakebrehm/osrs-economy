@@ -1,5 +1,5 @@
 {
-    "updated_at": "2025-02-06T23:35:03.804847+00:00",
+    "updated_at": "2025-04-30T15:31:51.904807+00:00",
     "invalid": [
         2660,
         9044,
@@ -398,7 +398,7 @@
             "name": "Defence potion(2)",
             "description": "2 doses of Defence potion.",
             "members": true,
-            "updated_at": "2024-11-14T18:04:49.181205+00:00"
+            "updated_at": "2025-04-30T15:24:18.674344+00:00"
         },
         "137": {
             "id": 137,
@@ -510,7 +510,7 @@
             "name": "Super defence(1)",
             "description": "1 dose of super Defence potion.",
             "members": true,
-            "updated_at": "2024-11-14T18:05:21.669466+00:00"
+            "updated_at": "2025-04-30T15:21:43.122425+00:00"
         },
         "169": {
             "id": 169,
@@ -664,7 +664,7 @@
             "name": "Grimy kwuarm",
             "description": "It needs cleaning.",
             "members": true,
-            "updated_at": "2024-11-14T18:06:05.435773+00:00"
+            "updated_at": "2025-04-30T15:30:57.120045+00:00"
         },
         "215": {
             "id": 215,
@@ -692,7 +692,7 @@
             "name": "Eye of newt",
             "description": "It seems to be looking at me.",
             "members": false,
-            "updated_at": "2024-11-14T18:06:13.310945+00:00"
+            "updated_at": "2025-04-30T15:23:22.844691+00:00"
         },
         "223": {
             "id": 223,
@@ -1560,7 +1560,7 @@
             "name": "Ship ticket",
             "description": "Allows you passage on the 'Lady of the waves' ship.",
             "members": true,
-            "updated_at": "2024-11-14T18:15:14.135061+00:00"
+            "updated_at": "2025-04-30T15:22:26.729217+00:00"
         },
         "626": {
             "id": 626,
@@ -1756,7 +1756,7 @@
             "name": "Rune thrownaxe",
             "description": "A finely balanced throwing axe.",
             "members": true,
-            "updated_at": "2024-11-14T18:16:06.646026+00:00"
+            "updated_at": "2025-04-30T15:25:26.652011+00:00"
         },
         "806": {
             "id": 806,
@@ -2120,7 +2120,7 @@
             "name": "Iron knife(p)",
             "description": "A finely balanced throwing knife.",
             "members": true,
-            "updated_at": "2024-11-14T18:23:08.856264+00:00"
+            "updated_at": "2025-04-30T15:31:46.519044+00:00"
         },
         "872": {
             "id": 872,
@@ -2344,7 +2344,7 @@
             "name": "Charcoal",
             "description": "A lump of charcoal.",
             "members": false,
-            "updated_at": "2024-11-14T18:24:08.302017+00:00"
+            "updated_at": "2025-04-30T15:31:40.534517+00:00"
         },
         "975": {
             "id": 975,
@@ -2820,7 +2820,7 @@
             "name": "Black platebody",
             "description": "Provides excellent protection.",
             "members": false,
-            "updated_at": "2024-11-14T18:31:16.676849+00:00"
+            "updated_at": "2025-04-30T15:26:40.701106+00:00"
         },
         "1127": {
             "id": 1127,
@@ -2946,7 +2946,7 @@
             "name": "Adamant full helm",
             "description": "A full face helmet.",
             "members": false,
-            "updated_at": "2024-11-14T18:31:52.821017+00:00"
+            "updated_at": "2025-04-30T15:21:36.881600+00:00"
         },
         "1163": {
             "id": 1163,
@@ -3709,14 +3709,14 @@
             "name": "Staff of air",
             "description": "A Magical staff.",
             "members": false,
-            "updated_at": "2024-11-14T18:42:32.205500+00:00"
+            "updated_at": "2025-04-30T15:29:49.224116+00:00"
         },
         "1383": {
             "id": 1383,
             "name": "Staff of water",
             "description": "A Magical staff.",
             "members": false,
-            "updated_at": "2024-11-14T18:42:34.253215+00:00"
+            "updated_at": "2025-04-30T15:22:32.874834+00:00"
         },
         "1385": {
             "id": 1385,
@@ -4899,7 +4899,7 @@
             "name": "Bowl",
             "description": "Useful for mixing things.",
             "members": false,
-            "updated_at": "2024-11-14T18:58:06.283549+00:00"
+            "updated_at": "2025-04-30T15:25:45.264269+00:00"
         },
         "1925": {
             "id": 1925,
@@ -5032,7 +5032,7 @@
             "name": "Easter egg",
             "description": "Happy Easter.",
             "members": false,
-            "updated_at": "2024-11-14T18:58:42.838369+00:00"
+            "updated_at": "2025-04-30T15:30:44.747281+00:00"
         },
         "1963": {
             "id": 1963,
@@ -5256,7 +5256,7 @@
             "name": "Wizard blizzard",
             "description": "This looks like a strange mix.",
             "members": true,
-            "updated_at": "2024-11-14T18:59:45.134622+00:00"
+            "updated_at": "2025-04-30T15:31:03.367407+00:00"
         },
         "2064": {
             "id": 2064,
@@ -6012,7 +6012,7 @@
             "name": "Assorted flowers",
             "description": "A posy of flowers.",
             "members": true,
-            "updated_at": "2024-11-14T19:13:18.230815+00:00"
+            "updated_at": "2025-04-30T15:22:38.871127+00:00"
         },
         "2462": {
             "id": 2462,
@@ -6747,7 +6747,7 @@
             "name": "Yellow hat",
             "description": "A silly pointed hat.",
             "members": true,
-            "updated_at": "2024-11-15T09:14:36.860406+00:00"
+            "updated_at": "2025-04-30T15:27:42.656995+00:00"
         },
         "2922": {
             "id": 2922,
@@ -6929,7 +6929,7 @@
             "name": "Energy potion(1)",
             "description": "1 dose of energy potion.",
             "members": false,
-            "updated_at": "2024-11-15T09:15:28.742448+00:00"
+            "updated_at": "2025-04-30T15:26:09.985180+00:00"
         },
         "3016": {
             "id": 3016,
@@ -8028,7 +8028,7 @@
             "name": "Saradomin page 1",
             "description": "This seems to have been torn from a book...",
             "members": true,
-            "updated_at": "2024-11-15T12:10:37.139557+00:00"
+            "updated_at": "2025-04-30T15:29:18.199715+00:00"
         },
         "3828": {
             "id": 3828,
@@ -8672,7 +8672,7 @@
             "name": "Team-37 cape",
             "description": "Ooohhh look at the pretty colours...",
             "members": false,
-            "updated_at": "2024-11-15T12:44:06.916033+00:00"
+            "updated_at": "2025-04-30T15:26:03.638062+00:00"
         },
         "4389": {
             "id": 4389,
@@ -9428,7 +9428,7 @@
             "name": "Ahrim's staff 0",
             "description": "Ahrim the Blighted's quarterstaff.",
             "members": true,
-            "updated_at": "2024-11-15T13:18:13.513374+00:00"
+            "updated_at": "2025-04-30T15:28:37.658233+00:00"
         },
         "4872": {
             "id": 4872,
@@ -9876,7 +9876,7 @@
             "name": "Palm tree seed",
             "description": "Plant in a plantpot of soil to grow a sapling.",
             "members": true,
-            "updated_at": "2024-11-15T13:37:09.662948+00:00"
+            "updated_at": "2025-04-30T15:24:37.373070+00:00"
         },
         "5290": {
             "id": 5290,
@@ -10359,7 +10359,7 @@
             "name": "Tiara mould",
             "description": "A mould for tiaras.",
             "members": false,
-            "updated_at": "2024-11-15T13:48:29.153929+00:00"
+            "updated_at": "2025-04-30T15:26:34.354531+00:00"
         },
         "5525": {
             "id": 5525,
@@ -10422,7 +10422,7 @@
             "name": "Nature tiara",
             "description": "A tiara infused with the properties of nature.",
             "members": true,
-            "updated_at": "2024-11-15T13:49:50.767541+00:00"
+            "updated_at": "2025-04-30T15:30:01.602209+00:00"
         },
         "5543": {
             "id": 5543,
@@ -10618,7 +10618,7 @@
             "name": "Steel dart(p++)",
             "description": "A deadly poisoned dart with a steel tip.",
             "members": true,
-            "updated_at": "2024-11-15T13:56:26.852605+00:00"
+            "updated_at": "2025-04-30T15:27:05.280835+00:00"
         },
         "5638": {
             "id": 5638,
@@ -10667,7 +10667,7 @@
             "name": "Steel javelin(p+)",
             "description": "A steel tipped javelin.",
             "members": true,
-            "updated_at": "2024-11-15T13:57:06.874048+00:00"
+            "updated_at": "2025-04-30T15:23:59.734463+00:00"
         },
         "5645": {
             "id": 5645,
@@ -11591,7 +11591,7 @@
             "name": "Maple leaves",
             "description": "A pile of Maple tree leaves.",
             "members": true,
-            "updated_at": "2024-11-15T14:15:13.801562+00:00"
+            "updated_at": "2025-04-30T15:23:47.112521+00:00"
         },
         "6030": {
             "id": 6030,
@@ -11626,7 +11626,7 @@
             "name": "Magic string",
             "description": "I could use this to make jewellery.",
             "members": true,
-            "updated_at": "2024-11-15T14:15:48.175041+00:00"
+            "updated_at": "2025-04-30T15:28:43.837862+00:00"
         },
         "6043": {
             "id": 6043,
@@ -11640,7 +11640,7 @@
             "name": "Willow roots",
             "description": "The roots of the Willow tree.",
             "members": true,
-            "updated_at": "2024-11-15T14:16:00.115507+00:00"
+            "updated_at": "2025-04-30T15:28:59.460170+00:00"
         },
         "6047": {
             "id": 6047,
@@ -11962,7 +11962,7 @@
             "name": "Spider on stick",
             "description": "A nicely roasted spider threaded onto a skewer stick.",
             "members": true,
-            "updated_at": "2024-11-15T14:23:28.514403+00:00"
+            "updated_at": "2025-04-30T15:23:10.353060+00:00"
         },
         "6299": {
             "id": 6299,
@@ -12137,7 +12137,7 @@
             "name": "Villager robe",
             "description": "A brightly coloured robe prized by the Tai Bwo Wannai peoples.",
             "members": true,
-            "updated_at": "2024-11-15T14:26:05.592557+00:00"
+            "updated_at": "2025-04-30T15:27:55.048630+00:00"
         },
         "6355": {
             "id": 6355,
@@ -12662,7 +12662,7 @@
             "name": "White platelegs",
             "description": "Big, White and heavy looking.",
             "members": true,
-            "updated_at": "2024-11-15T14:37:33.107521+00:00"
+            "updated_at": "2025-04-30T15:22:14.199710+00:00"
         },
         "6627": {
             "id": 6627,
@@ -13096,7 +13096,7 @@
             "name": "Spicy sauce",
             "description": "A bowl of spicy sauce.",
             "members": true,
-            "updated_at": "2024-11-15T14:52:34.123315+00:00"
+            "updated_at": "2025-04-30T15:24:24.886389+00:00"
         },
         "7074": {
             "id": 7074,
@@ -13222,7 +13222,7 @@
             "name": "Pirate leggings",
             "description": "A sea worthy pair of trousers.",
             "members": true,
-            "updated_at": "2024-11-15T14:54:31.675938+00:00"
+            "updated_at": "2025-04-30T15:29:36.936048+00:00"
         },
         "7134": {
             "id": 7134,
@@ -13383,7 +13383,7 @@
             "name": "Green boater",
             "description": "Stylish!",
             "members": true,
-            "updated_at": "2024-11-15T14:58:04.549626+00:00"
+            "updated_at": "2025-04-30T15:24:49.494483+00:00"
         },
         "7325": {
             "id": 7325,
@@ -13579,7 +13579,7 @@
             "name": "Blue d'hide body (t)",
             "description": "Made from 100% real dragonhide. With colourful trim!",
             "members": true,
-            "updated_at": "2024-11-15T15:02:20.771144+00:00"
+            "updated_at": "2025-04-30T15:30:25.944806+00:00"
         },
         "7378": {
             "id": 7378,
@@ -13838,7 +13838,7 @@
             "name": "Toy soldier (wound)",
             "description": "Nice bit of crafting!",
             "members": true,
-            "updated_at": "2024-11-15T15:08:30.125921+00:00"
+            "updated_at": "2025-04-30T15:31:09.670443+00:00"
         },
         "7763": {
             "id": 7763,
@@ -13992,7 +13992,7 @@
             "name": "Enchant emerald or jade",
             "description": "A tablet containing a magic spell.",
             "members": true,
-            "updated_at": "2024-11-15T15:12:42.114929+00:00"
+            "updated_at": "2025-04-30T15:30:07.602671+00:00"
         },
         "8018": {
             "id": 8018,
@@ -14230,7 +14230,7 @@
             "name": "Mahogany armchair",
             "description": "How does it all fit in there?",
             "members": true,
-            "updated_at": "2024-11-15T09:30:52.716929+00:00"
+            "updated_at": "2025-04-30T15:28:50.007231+00:00"
         },
         "8510": {
             "id": 8510,
@@ -14559,7 +14559,7 @@
             "name": "Teak drawers",
             "description": "How does it all fit in there?",
             "members": true,
-            "updated_at": "2024-11-15T09:36:19.164637+00:00"
+            "updated_at": "2025-04-30T15:28:19.719070+00:00"
         },
         "8618": {
             "id": 8618,
@@ -14657,7 +14657,7 @@
             "name": "Bone dagger",
             "description": "A powerful dagger.",
             "members": true,
-            "updated_at": "2024-11-15T09:39:53.209040+00:00"
+            "updated_at": "2025-04-30T15:25:51.251495+00:00"
         },
         "8874": {
             "id": 8874,
@@ -14937,7 +14937,7 @@
             "name": "Sapphire bolt tips",
             "description": "Sapphire bolt tips.",
             "members": true,
-            "updated_at": "2024-11-15T10:19:26.151166+00:00"
+            "updated_at": "2025-04-30T15:23:03.923748+00:00"
         },
         "9190": {
             "id": 9190,
@@ -15224,7 +15224,7 @@
             "name": "Iron bolts (unf)",
             "description": "Unfeathered iron crossbow bolts.",
             "members": true,
-            "updated_at": "2024-11-15T10:23:36.085096+00:00"
+            "updated_at": "2025-04-30T15:31:28.219412+00:00"
         },
         "9378": {
             "id": 9378,
@@ -15560,7 +15560,7 @@
             "name": "Proselyte tasset",
             "description": "A Proselyte Temple Knight's leg armour.",
             "members": true,
-            "updated_at": "2024-11-15T10:37:24.606585+00:00"
+            "updated_at": "2025-04-30T15:31:21.950813+00:00"
         },
         "9729": {
             "id": 9729,
@@ -15945,7 +15945,7 @@
             "name": "Rabbit snare",
             "description": "The snare will tighten around animals passing through.",
             "members": true,
-            "updated_at": "2024-11-15T10:45:44.504185+00:00"
+            "updated_at": "2025-04-30T15:29:11.953061+00:00"
         },
         "10033": {
             "id": 10033,
@@ -16043,7 +16043,7 @@
             "name": "Jungle camo top",
             "description": "This should make me harder to spot in jungle areas.",
             "members": true,
-            "updated_at": "2024-11-15T10:47:48.051135+00:00"
+            "updated_at": "2025-04-30T15:23:41.102115+00:00"
         },
         "10059": {
             "id": 10059,
@@ -16099,7 +16099,7 @@
             "name": "Gloves of silence",
             "description": "Made from dark kebbit fur, these are perfect for tasks of a stealthier nature.",
             "members": true,
-            "updated_at": "2024-11-15T10:49:10.499638+00:00"
+            "updated_at": "2025-04-30T15:28:01.298454+00:00"
         },
         "10077": {
             "id": 10077,
@@ -16239,7 +16239,7 @@
             "name": "Kebbit teeth dust",
             "description": "Previously a kebbit-sized set of dentures.",
             "members": true,
-            "updated_at": "2024-11-15T11:08:22.852900+00:00"
+            "updated_at": "2025-04-30T15:30:50.912412+00:00"
         },
         "10113": {
             "id": 10113,
@@ -16435,7 +16435,7 @@
             "name": "Magic comp bow",
             "description": "A powerful bow made from magic wood.",
             "members": true,
-            "updated_at": "2024-11-15T11:12:12.610163+00:00"
+            "updated_at": "2025-04-30T15:25:57.498992+00:00"
         },
         "10286": {
             "id": 10286,
@@ -17107,7 +17107,7 @@
             "name": "Granite helm",
             "description": "A stone helmet.",
             "members": true,
-            "updated_at": "2024-11-15T11:22:37.239005+00:00"
+            "updated_at": "2025-04-30T15:28:25.866938+00:00"
         },
         "10808": {
             "id": 10808,
@@ -17674,7 +17674,7 @@
             "name": "Bronze hasta",
             "description": "A bronze-tipped, one-handed hasta.",
             "members": true,
-            "updated_at": "2024-11-15T11:34:50.625060+00:00"
+            "updated_at": "2025-04-30T15:26:46.888995+00:00"
         },
         "11369": {
             "id": 11369,
@@ -17737,7 +17737,7 @@
             "name": "Iron hasta(p)",
             "description": "A poison-tipped, one-handed iron hasta.",
             "members": true,
-            "updated_at": "2024-11-15T11:35:48.292737+00:00"
+            "updated_at": "2025-04-30T15:30:13.640596+00:00"
         },
         "11389": {
             "id": 11389,
@@ -17940,7 +17940,7 @@
             "name": "Defence mix(2)",
             "description": "Two doses of fishy Defence potion.",
             "members": true,
-            "updated_at": "2024-11-15T11:39:27.210521+00:00"
+            "updated_at": "2025-04-30T15:27:11.514130+00:00"
         },
         "11459": {
             "id": 11459,
@@ -18010,7 +18010,7 @@
             "name": "Fishing mix(2)",
             "description": "Two doses of fishy Fishing potion.",
             "members": true,
-            "updated_at": "2024-11-15T11:40:45.133876+00:00"
+            "updated_at": "2025-04-30T15:22:57.678466+00:00"
         },
         "11479": {
             "id": 11479,
@@ -18409,7 +18409,7 @@
             "name": "Malediction ward",
             "description": "An ancient, evil shield forged by Volcanic heat.",
             "members": true,
-            "updated_at": "2024-11-15T12:01:40.651206+00:00"
+            "updated_at": "2025-04-30T15:30:19.630200+00:00"
         },
         "11926": {
             "id": 11926,
@@ -18710,7 +18710,7 @@
             "name": "Bronze platebody (t)",
             "description": "Bronze platebody with trim.",
             "members": false,
-            "updated_at": "2024-11-15T12:15:54.768738+00:00"
+            "updated_at": "2025-04-30T15:22:20.402285+00:00"
         },
         "12217": {
             "id": 12217,
@@ -19032,7 +19032,7 @@
             "name": "Green headband",
             "description": "A minimalist's hat.",
             "members": true,
-            "updated_at": "2024-11-15T12:23:04.681943+00:00"
+            "updated_at": "2025-04-30T15:22:01.766646+00:00"
         },
         "12309": {
             "id": 12309,
@@ -19291,7 +19291,7 @@
             "name": "Black d'hide body (g)",
             "description": "Made from 100% real dragonhide. With colourful trim!",
             "members": true,
-            "updated_at": "2024-11-15T12:29:38.800406+00:00"
+            "updated_at": "2025-04-30T15:25:08.366029+00:00"
         },
         "12383": {
             "id": 12383,
@@ -19795,7 +19795,7 @@
             "name": "Dark infinity colour kit",
             "description": "Use on infinity pieces to recolour them!",
             "members": true,
-            "updated_at": "2024-11-15T12:39:55.636410+00:00"
+            "updated_at": "2025-04-30T15:24:31.070959+00:00"
         },
         "12530": {
             "id": 12530,
@@ -19844,7 +19844,7 @@
             "name": "Rangers' tunic",
             "description": "Lightweight body armour ideal for rangers.",
             "members": true,
-            "updated_at": "2024-11-15T12:45:00.475107+00:00"
+            "updated_at": "2025-04-30T15:28:13.510344+00:00"
         },
         "12598": {
             "id": 12598,
@@ -19942,7 +19942,7 @@
             "name": "Ancient page 2",
             "description": "This seems to have been torn from a book...",
             "members": true,
-            "updated_at": "2024-11-15T12:47:26.703338+00:00"
+            "updated_at": "2025-04-30T15:22:51.331354+00:00"
         },
         "12623": {
             "id": 12623,
@@ -20467,7 +20467,7 @@
             "name": "Zulrah's scales",
             "description": "Flakes of toxic snakeskin.",
             "members": true,
-            "updated_at": "2024-11-15T13:08:04.790292+00:00"
+            "updated_at": "2025-04-30T15:27:48.905097+00:00"
         },
         "12936": {
             "id": 12936,
@@ -20712,7 +20712,7 @@
             "name": "Rune armour set (lg)",
             "description": "A set containing a full helm, platebody, legs and kiteshield.",
             "members": false,
-            "updated_at": "2024-11-15T13:15:40.819304+00:00"
+            "updated_at": "2025-04-30T15:27:30.168878+00:00"
         },
         "13026": {
             "id": 13026,
@@ -20761,7 +20761,7 @@
             "name": "Gilded armour set (sk)",
             "description": "A set containing a full helm, platebody, skirt and kiteshield.",
             "members": false,
-            "updated_at": "2024-11-15T13:16:56.560364+00:00"
+            "updated_at": "2025-04-30T15:26:53.001746+00:00"
         },
         "13040": {
             "id": 13040,
@@ -20817,7 +20817,7 @@
             "name": "Armadyl rune armour set (sk)",
             "description": "A set containing a full helm, platebody, skirt and kiteshield.",
             "members": false,
-            "updated_at": "2024-11-15T13:18:01.577564+00:00"
+            "updated_at": "2025-04-30T15:30:38.376606+00:00"
         },
         "13056": {
             "id": 13056,
@@ -21111,7 +21111,7 @@
             "name": "Saltpetre",
             "description": "A powder that can be added to compost to make fertiliser.",
             "members": true,
-            "updated_at": "2024-11-15T13:33:04.192840+00:00"
+            "updated_at": "2025-04-30T15:28:07.302750+00:00"
         },
         "13431": {
             "id": 13431,
@@ -21195,7 +21195,7 @@
             "name": "Ensouled chaos druid head",
             "description": "The druid's soul is still in here. I could reanimate it with Adept Reanimation.",
             "members": true,
-            "updated_at": "2024-11-15T13:35:35.625339+00:00"
+            "updated_at": "2025-04-30T15:25:20.637191+00:00"
         },
         "13475": {
             "id": 13475,
@@ -21762,7 +21762,7 @@
             "name": "Saradomin d'hide boots",
             "description": "Saradomin blessed dragonhide boots.",
             "members": true,
-            "updated_at": "2024-11-15T11:49:44.173058+00:00"
+            "updated_at": "2025-04-30T15:23:29.023943+00:00"
         },
         "19936": {
             "id": 19936,
@@ -21916,7 +21916,7 @@
             "name": "Ring of nature",
             "description": "A ring shaped like the nature rune symbol.",
             "members": false,
-            "updated_at": "2024-11-15T11:54:30.940506+00:00"
+            "updated_at": "2025-04-30T15:25:32.817005+00:00"
         },
         "20008": {
             "id": 20008,
@@ -22322,7 +22322,7 @@
             "name": "Steel kiteshield (g)",
             "description": "Steel kiteshield with gold trim.",
             "members": false,
-            "updated_at": "2024-11-15T12:09:04.243747+00:00"
+            "updated_at": "2025-04-30T15:27:23.920802+00:00"
         },
         "20184": {
             "id": 20184,
@@ -22609,7 +22609,7 @@
             "name": "Elder chaos robe",
             "description": "The robes worn by the dangerous elder druids.",
             "members": true,
-            "updated_at": "2024-11-15T12:25:07.220466+00:00"
+            "updated_at": "2025-04-30T15:28:31.656916+00:00"
         },
         "20590": {
             "id": 20590,
@@ -23099,7 +23099,7 @@
             "name": "Amethyst arrow(p)",
             "description": "Venomous-looking arrows.",
             "members": true,
-            "updated_at": "2024-11-15T13:21:38.160802+00:00"
+            "updated_at": "2025-04-30T15:30:32.113345+00:00"
         },
         "21334": {
             "id": 21334,
@@ -23379,7 +23379,7 @@
             "name": "Ancient crystal",
             "description": "An ancient crystal containing magical energy.",
             "members": true,
-            "updated_at": "2024-11-15T13:44:27.159532+00:00"
+            "updated_at": "2025-04-30T15:25:02.195582+00:00"
         },
         "21807": {
             "id": 21807,
@@ -23687,7 +23687,7 @@
             "name": "Super antifire potion(2)",
             "description": "2 doses of super anti-firebreath potion.",
             "members": true,
-            "updated_at": "2024-11-15T13:53:51.406296+00:00"
+            "updated_at": "2025-04-30T15:27:36.423240+00:00"
         },
         "21987": {
             "id": 21987,
@@ -23855,7 +23855,7 @@
             "name": "Extended super antifire mix(1)",
             "description": "One dose of fishy extended super anti-firebreath potion.",
             "members": true,
-            "updated_at": "2024-11-15T14:06:46.670782+00:00"
+            "updated_at": "2025-04-30T15:29:05.677088+00:00"
         },
         "22231": {
             "id": 22231,
@@ -23995,7 +23995,7 @@
             "name": "Ancient medallion",
             "description": "A mysterious artifact of ancient times, precious to emblem traders.",
             "members": true,
-            "updated_at": "2024-11-15T14:09:42.528918+00:00"
+            "updated_at": "2025-04-30T15:29:30.793495+00:00"
         },
         "22302": {
             "id": 22302,
@@ -24072,7 +24072,7 @@
             "name": "Cadantine blood potion (unf)",
             "description": "I need another ingredient to finish this blood potion.",
             "members": true,
-            "updated_at": "2024-11-15T14:16:40.587061+00:00"
+            "updated_at": "2025-04-30T15:31:34.287491+00:00"
         },
         "22446": {
             "id": 22446,
@@ -24156,7 +24156,7 @@
             "name": "Scythe of vitur (uncharged)",
             "description": "A powerful scythe. It is currently uncharged.",
             "members": true,
-            "updated_at": "2024-11-15T14:18:08.180324+00:00"
+            "updated_at": "2025-04-30T15:26:22.479737+00:00"
         },
         "22542": {
             "id": 22542,
@@ -24380,7 +24380,7 @@
             "name": "Celastrus seed",
             "description": "For growing a Celastrus tree.",
             "members": true,
-            "updated_at": "2024-11-15T14:31:36.511954+00:00"
+            "updated_at": "2025-04-30T15:29:55.574072+00:00"
         },
         "22871": {
             "id": 22871,
@@ -25171,7 +25171,7 @@
             "name": "Sarachnis cudgel",
             "description": "Not to be confused with a Sarachnis cuddle.",
             "members": true,
-            "updated_at": "2024-11-15T14:55:13.608439+00:00"
+            "updated_at": "2025-04-30T15:22:08.028635+00:00"
         },
         "23667": {
             "id": 23667,
@@ -25185,14 +25185,14 @@
             "name": "Divine super combat potion(4)",
             "description": "4 doses of divine super combat potion.",
             "members": true,
-            "updated_at": "2024-11-15T14:57:05.171771+00:00"
+            "updated_at": "2025-04-30T15:25:38.994345+00:00"
         },
         "23688": {
             "id": 23688,
             "name": "Divine super combat potion(3)",
             "description": "3 doses of divine super combat potion.",
             "members": true,
-            "updated_at": "2024-11-15T14:57:10.731674+00:00"
+            "updated_at": "2025-04-30T15:24:43.430980+00:00"
         },
         "23691": {
             "id": 23691,
@@ -26060,7 +26060,7 @@
             "name": "Trailblazer top (t2)",
             "description": "The coat of a trailblazer relic hunter.",
             "members": true,
-            "updated_at": "2024-11-15T09:37:17.670657+00:00"
+            "updated_at": "2025-04-30T15:26:28.312963+00:00"
         },
         "25022": {
             "id": 25022,
@@ -26256,7 +26256,7 @@
             "name": "Bronze locks",
             "description": "Perhaps someone can do something with this.",
             "members": true,
-            "updated_at": "2024-11-15T10:06:55.178157+00:00"
+            "updated_at": "2025-04-30T15:29:43.084285+00:00"
         },
         "25445": {
             "id": 25445,
@@ -26298,7 +26298,7 @@
             "name": "Runescroll of bloodbark",
             "description": "A rough scroll with faint writing, on a malevolent dark red parchment.",
             "members": true,
-            "updated_at": "2024-11-15T10:07:43.106088+00:00"
+            "updated_at": "2025-04-30T15:21:30.639576+00:00"
         },
         "25521": {
             "id": 25521,
@@ -26487,7 +26487,7 @@
             "name": "Nihil shard",
             "description": "An ancient magical shard.",
             "members": true,
-            "updated_at": "2024-11-15T10:39:12.605358+00:00"
+            "updated_at": "2025-04-30T15:24:06.083515+00:00"
         },
         "26233": {
             "id": 26233,
@@ -26550,7 +26550,7 @@
             "name": "Ancient brew(2)",
             "description": "2 doses of ancient brew.",
             "members": true,
-            "updated_at": "2024-11-15T10:42:08.497426+00:00"
+            "updated_at": "2025-04-30T15:23:53.490100+00:00"
         },
         "26346": {
             "id": 26346,
@@ -26578,7 +26578,7 @@
             "name": "Nihil dust",
             "description": "Dust from a crushed magical shard.",
             "members": true,
-            "updated_at": "2024-11-15T10:42:42.497981+00:00"
+            "updated_at": "2025-04-30T15:24:55.853009+00:00"
         },
         "26370": {
             "id": 26370,
@@ -27222,7 +27222,7 @@
             "name": "Mithril felling axe",
             "description": "A powerful felling axe.",
             "members": true,
-            "updated_at": "2024-11-15T11:55:36.118832+00:00"
+            "updated_at": "2025-04-30T15:21:55.792046+00:00"
         },
         "28211": {
             "id": 28211,
@@ -27341,7 +27341,7 @@
             "name": "Sawmill voucher",
             "description": "Used to provide additional planks at the sawmill.",
             "members": true,
-            "updated_at": "2024-11-15T12:17:42.802384+00:00"
+            "updated_at": "2025-04-30T15:22:45.083884+00:00"
         },
         "28684": {
             "id": 28684,
@@ -27418,7 +27418,7 @@
             "name": "Trailblazer reloaded trousers (t1)",
             "description": "The trousers of a Trailblazer Reloaded Relic Hunter.",
             "members": true,
-            "updated_at": "2024-11-15T12:26:00.678374+00:00"
+            "updated_at": "2025-04-30T15:26:16.230220+00:00"
         },
         "28721": {
             "id": 28721,
@@ -27453,7 +27453,7 @@
             "name": "Trailblazer reloaded boots (t2)",
             "description": "The boots of a Trailblazer Reloaded Relic Hunter.",
             "members": true,
-            "updated_at": "2024-11-15T12:27:03.615554+00:00"
+            "updated_at": "2025-04-30T15:31:15.837277+00:00"
         },
         "28736": {
             "id": 28736,
@@ -27621,7 +27621,7 @@
             "name": "Sunfire splinters",
             "description": "Vaporised material from the sun.",
             "members": true,
-            "updated_at": "2024-11-15T14:22:41.012316+00:00"
+            "updated_at": "2025-04-30T15:23:35.381255+00:00"
         },
         "28929": {
             "id": 28929,
@@ -27901,7 +27901,7 @@
             "name": "Cooked wild kebbit",
             "description": "Mmm, this looks tasty.",
             "members": true,
-            "updated_at": "2024-11-15T12:53:29.185221+00:00"
+            "updated_at": "2025-04-30T15:24:12.433421+00:00"
         },
         "29131": {
             "id": 29131,
@@ -27950,7 +27950,7 @@
             "name": "Cooked graahk",
             "description": "Mmm, this looks tasty.",
             "members": true,
-            "updated_at": "2024-11-15T12:54:32.161289+00:00"
+            "updated_at": "2025-04-30T15:26:59.026471+00:00"
         },
         "29152": {
             "id": 29152,
@@ -28195,7 +28195,7 @@
             "name": "Moon-lite",
             "description": "A popular spirit all across Varlamore.",
             "members": true,
-            "updated_at": "2024-11-15T13:16:04.235277+00:00"
+            "updated_at": "2025-04-30T15:25:14.386166+00:00"
         },
         "29421": {
             "id": 29421,
@@ -28580,7 +28580,7 @@
             "name": "Goading potion(2)",
             "description": "2 doses of Goading potion.",
             "members": true,
-            "updated_at": "2024-11-15T13:52:02.545987+00:00"
+            "updated_at": "2025-04-30T15:23:16.576891+00:00"
         },
         "30146": {
             "id": 30146,
@@ -28601,7 +28601,7 @@
             "name": "Broken zombie helmet",
             "description": "An old rusty helmet. It needs repairing before it can be used.",
             "members": true,
-            "updated_at": "2024-11-15T14:03:46.562309+00:00"
+            "updated_at": "2025-04-30T15:27:17.678084+00:00"
         },
         "30328": {
             "id": 30328,
@@ -28741,7 +28741,7 @@
             "name": "Echo virtus ornament kit",
             "description": "Used on Virtus robes to decorate them in the style of Leagues V: Raging Echoes.",
             "members": true,
-            "updated_at": "2025-02-06T23:34:19.991720+00:00"
+            "updated_at": "2025-04-30T15:29:24.445807+00:00"
         },
         "30451": {
             "id": 30451,
@@ -28755,7 +28755,7 @@
             "name": "Echo home teleport scroll",
             "description": "A scroll which unlocks the Raging Echoes Home Teleport animation.",
             "members": true,
-            "updated_at": "2025-02-06T23:34:31.148811+00:00"
+            "updated_at": "2025-04-30T15:21:49.478008+00:00"
         },
         "30455": {
             "id": 30455,
