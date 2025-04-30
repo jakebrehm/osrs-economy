@@ -8,7 +8,7 @@
 
 </div>
 
-<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/divider.png" alt="Custom Divider Image" style="width: 100%;"/>
+<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/divider.png" alt="Divider" style="width: 100%;"/>
 
 - [Introduction](#introduction)
 - [Data Sources](#data-sources)
@@ -17,7 +17,7 @@
 - [Acknowledgements](#acknowledgements)
 - [Authors](#authors)
 
-<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/divider.png" alt="Custom Divider Image" style="width: 100%;"/>
+<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/divider.png" alt="Divider" style="width: 100%;"/>
 
 ## Introduction
 
@@ -53,7 +53,7 @@ Please refer to the architecture diagram below for a visual representation of th
 
 ### Extract
 
-Data was extracted from the sources listed in the [Data Sources](#data-sources) section. To do this, a supporting Python library (located in the `src` directory) was created to extract data from the various sources. This library handles making requests to the various APIs, performing the bare minimum amount of data wrangling to get the data into the desired format for loading, and interacting with the appropriate cloud services.
+Data was extracted from the sources listed in [Data Sources](#data-sources). To do this, a supporting Python library (located in the `src` directory) was created to extract data from the various sources, and the library served as the backend for a command-line tool and Airflow DAGs.
 
 The extraction and loading processes were orchestrated using an Airflow and containerized using Docker.
 
@@ -68,11 +68,9 @@ See below for an ER diagram of the BigQuery database.
 
 <img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/er-diagram.png" alt="OSRS Economy ELT ER Diagram" style="width: 100%;"/>
 
-The database follows a [medallion architecture](https://www.databricks.com/glossary/medallion-architecture), which is a design pattern that allows for the separation of concerns between the data layer and the application layer.
+The database follows a [medallion architecture](https://www.databricks.com/glossary/medallion-architecture) design pattern.
 
-Typically, the bronze layer is where raw data is loaded, the silver layer is for cleaned and transformed data, and the gold layer is aggregated data that is used for the final analysis and visualization.
-
-The extracted data was already quite clean, thus the silver layer was omitted so as to not overcomplicate the project (more than has already been done).
+Typically, the bronze layer is where raw data is loaded, the silver layer is for cleaned and transformed data, and the gold layer is for analysis- and reporting-ready data. However, the extracted data was already quite clean, thus the silver layer was omitted so as to not further overcomplicate the project.
 
 > [!NOTE]
 > Please keep in mind that the intention of this project is not to have a sprawling, massive database, but rather to have a relatively simple database that provides a foundation to use more advanced tools.
@@ -83,7 +81,7 @@ Transformations were applied to the data and the gold layer of the database was 
 
 ### Visualize
 
-A [report](https://tinyurl.com/osrs-economy) was created to visualize the data. It is fairly barebones, since creating a beautiful report is not the goal of this project; it is simply a way to show that the data exists and is able to be visualized and analyzed. That said, I may improve this report in the future.
+A [report](https://tinyurl.com/osrs-economy) was created to visualize the data. It is fairly barebones, since creating a beautiful report was not the primary goal of this project; it is simply a way to show that the data exists.
 
 ## Improvements
 
@@ -92,23 +90,25 @@ A project is never truly _done_ since someone who cares about their work will al
 If I had to start this project from scratch or rework it in the future, I would take the following lessons and potential improvements into account:
 
 - Simplify the data extraction process.
-  - The _WeirdGloop_ API is currently being used to fetch item prices, but the _Wiki_ API could be used for this purpose on top of its existing functionality.
-  - This would improve complexity by decreasing the number of APIs being used from 3 to 2.
+  - Fetch item prices with the _WeirdGloop_ API with the _Wiki_ API, which is already being used for item details.
+  - The prices from the _Wiki_ API might even be more accurate.
 - Rework the `src` directory.
-  - Since Airflow was added into the project late in development, the extract and load processes were originally envisioned as a command-line tool; the remnants of this can be seen in `main.py`.
-  - I'm not sure exactly what I would have preferred to do instead, but this part of the architecture feels like it doesn't flow smoothly with Airflow. - Honestly, even if this is a good example of how a project can be over-engineered, it helps me exercise my general software engineering design skills, so I'm not super worried about changing this.
+  - Before deciding to add Airflow late in development, the project was a command-line tool
+    - The remnants of this can be seen in `main.py` and in the Airflow DAGs.
+  - I would refactor the source code to be more suited for Airflow.
+  - This is a good example of over-engineering, but it did help me exercise my general software engineering skills.
 - Utilize Airflow DAGs more effectively.
-  - Initially, Airflow was not going to be used for this project, so its addition was done relatively haphazardly.
-  - Currently, only two DAGs are being used--one to ingest item details and another to ingest prices--but these processes could each be split into multiple DAGs to improve their robustness and transparency.
-  - This would also allow for extracted data to be stored in Cloud Storage and BigQuery in parallel instead of sequentially.
-  - I have no regrets adding it to the project, but since its inclusion was born from feature creep, the execution could definitely be improved.
+  - Currently, there are only two DAGs: one to ingest item details and another to ingest prices.
+  - These DAGs could each be split into multiple DAGs to improve robustness and transparency.
+  - Extracted data could be stored in Cloud Storage and BigQuery in parallel instead of sequentially.
 - Add an autoincrementing primary key to the prices tables.
-  - I meant to do this in the first place, but then I forgot. Then, suddenly, I was in too deep and it turns out I didn't have an urgent need for it anyways.
+  - I meant to go back and do this, but by the time I did, it wasn't worth the development time.
+  - It turns out I didn't have an urgent need for it anyways, but it would be nice to have it.
 - Use tables instead of views for the gold layer.
-  - Currently, the gold layer entities created using dbt are views, but these are traditionally tables.
-  - The only reason I chose to use views was because I wanted to avoid extraneous storage costs, but after working with the project for a while, it became obvious that storage costs were not a concern anyways.
+  - Currently, the gold layer entities created using dbt are views, but these would traditionally be tables.
+  - I chose to use views to avoid extraneous storage costs, but with time it became clear this wasn't a concern.
 
-<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/divider.png" alt="Custom Divider Image" style="width: 100%;"/>
+<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/divider.png" alt="Divider" style="width: 100%;"/>
 
 ## Acknowledgements
 
