@@ -3,6 +3,7 @@
 with
     ranked_rows as (
         select
+            uuid,
             item_id as id,
             price,
             recorded_at,
@@ -12,7 +13,7 @@ with
         from {{ var("prices_table") }}
     )
 
-select i.id, r.price, i.name, i.description, r.recorded_at
+select i.id, r.uuid, r.price, i.name, i.description, r.recorded_at
 from ranked_rows r
 inner join {{ var("items_table") }} i on i.id = r.id
 where r.row_num = 1

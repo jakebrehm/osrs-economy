@@ -11,6 +11,8 @@ models:
           - relationships:
               field: id
               to: source("bronze", env_var('DBT_BQ_TABLE_ITEMS'))
+      - name: uuid
+        description: The unique identifier for the record of the latest price.
       - name: price
         description: The most recent price of the item.
       - name: name
