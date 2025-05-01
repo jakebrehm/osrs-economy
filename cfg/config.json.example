@@ -2,6 +2,7 @@
     "user_agent": "A description of your project (with a way to contact you)",
     "minimum_days_before_update": 14,
     "update_chunk_size": 100,
+    "save_icons": true,
     "timeout": 10,
     "endpoints": {
         "wiki": "https://prices.runescape.wiki/api/v1/osrs/latest",

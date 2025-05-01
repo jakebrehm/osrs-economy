@@ -99,7 +99,7 @@ class LocalStorageHandler(StorageHandler):
         filename: str,
     ) -> None:
         """Saves data as bytes to the cloud storage location."""
-        destination = self.config.get_data_path(f"images/{filename}")
+        destination = self.config.get_data_path(filename)
         write_image(destination, data)
 
     def __enter__(self) -> Self:

@@ -77,7 +77,7 @@ def randomly_select_ids(items: dict, config: Config) -> list[int]:
         last_updated = dt.datetime.fromisoformat(details["updated_at"])
         cutoff = dt.datetime.now(pytz.utc) - dt.timedelta(days=threshold_days)
         if last_updated < cutoff:
-            outdated_items.append(item_id)
+            outdated_items.append(int(item_id))
     tqdm.write(f"Found {len(outdated_items)} outdated items.")
     return random.sample(outdated_items, k=chunk_size)
 
@@ -116,9 +116,11 @@ def fetch_item_details(
         return data
 
     # Initialize the progress bar
+    TQDM_TOTAL = len(all_ids) - len(invalid_ids)
+    TQDM_START = TQDM_TOTAL - len(ids_to_fetch)
     tqdm_bar = tqdm(
-        total=len(all_ids),
-        initial=len(existing_ids) - len(outdated_ids),
+        total=TQDM_TOTAL,
+        initial=TQDM_START,
         desc="Fetching",
         unit="item",
         leave=False,
@@ -148,7 +150,7 @@ def fetch_item_details(
             tqdm_bar.update(1)
             unsaved_count += 1
         # Save each image to Cloud Storage
-        if icon_url is not None:
+        if config["save_icons"] and (icon_url is not None):
             tqdm.write("Saving item icon...")
             upload_item_icon(icon_url, item_id, config=config)
         # Save the unsaved details if the chunk size is reached

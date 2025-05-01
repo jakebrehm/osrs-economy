@@ -15,6 +15,7 @@ ide/
 cfg/config.json
 cfg/secrets.json
 data/*
+data/images/*
 !data/images
 notebooks/
 !.gitkeep
