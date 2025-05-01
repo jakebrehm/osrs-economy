@@ -81,7 +81,15 @@ Transformations were applied to the data and the gold layer of the database was 
 
 ### Visualize
 
-A [report](https://tinyurl.com/osrs-economy) was created to visualize the data. It is fairly barebones, since creating a beautiful report was not the primary goal of this project; it is simply a way to show that the data exists.
+A [report](https://tinyurl.com/osrs-economy) was created to visualize the data. A screenshot is included below in case I decide to stop supporting the project.
+
+It is fairly barebones, since creating a beautiful report was not the primary goal of this project; it is simply a way to show that the data exists.
+
+<div align="center">
+
+<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/report.png" alt="Report Screenshot" style="width: 70%;"/>
+
+</div>
 
 ## Improvements
 
