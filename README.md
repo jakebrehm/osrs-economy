@@ -53,7 +53,7 @@ Please refer to the architecture diagram below for a visual representation of th
 
 ### Extract
 
-Data was extracted from the sources listed in [Data Sources](#data-sources). To do this, a supporting Python library (located in the `src` directory) was created to extract data from the various sources, and the library served as the backend for a command-line tool and Airflow DAGs.
+Data was extracted from the sources listed in [Data Sources](#data-sources). To do this, a supporting Python library (located in the [`src`](/src/) directory) was created to extract data from the various sources, and the library served as the backend for a command-line tool and Airflow DAGs.
 
 The extraction and loading processes were orchestrated using an Airflow and containerized using Docker.
 
@@ -92,9 +92,9 @@ If I had to start this project from scratch or rework it in the future, I would 
 - Simplify the data extraction process.
   - Fetch item prices with the _Wiki_ API instead of the _WeirdGloop_ API.
   - The prices from the _Wiki_ API are closer to real-time, and it's already being used for item details.
-- Rework the `src` directory.
-  - Before deciding to add Airflow late in development, the project was a command-line tool
-    - The remnants of this can be seen in `main.py` and in the Airflow DAGs.
+- Rework the [`src`](/src/) directory.
+  - Before deciding to add Airflow late in development, the project was a command-line tool.
+    - The remnants of this can be seen in [`main.py`](main.py) and in the Airflow DAGs.
   - I would refactor the source code to be more suited for Airflow.
   - This is a good example of over-engineering, but it did help me exercise my general software engineering skills.
 - Utilize Airflow DAGs more effectively.
