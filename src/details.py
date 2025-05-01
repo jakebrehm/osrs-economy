@@ -144,7 +144,7 @@ def fetch_item_details(
             unsaved_count += 1
             data["invalid"].append(item_id)
         else:
-            data["items"][item_id] = item_details
+            data["items"][str(item_id)] = item_details
             tqdm_bar.set_description("Fetching")
             tqdm.write(f"✔️ {item_id:>{max_length}}: {item_details['name']}")
             tqdm_bar.update(1)
