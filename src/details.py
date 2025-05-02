@@ -78,8 +78,9 @@ def randomly_select_ids(items: dict, config: Config) -> list[int]:
         cutoff = dt.datetime.now(pytz.utc) - dt.timedelta(days=threshold_days)
         if last_updated < cutoff:
             outdated_items.append(int(item_id))
-    tqdm.write(f"Found {len(outdated_items)} outdated items.")
-    return random.sample(outdated_items, k=chunk_size)
+    population_size = len(outdated_items)
+    tqdm.write(f"Found {population_size} outdated items.")
+    return random.sample(outdated_items, k=min(chunk_size, population_size))
 
 
 def fetch_item_details(
