@@ -97,19 +97,20 @@ A project is never truly _done_ since someone who cares about their work will al
 
 If I had to start this project from scratch or rework it in the future, I would take the following lessons and potential improvements into account:
 
-- Simplify the data extraction process.
-  - Fetch item prices with the _Wiki_ API instead of the _WeirdGloop_ API.
-  - The prices from the _Wiki_ API are closer to real-time, and it's already being used for item details.
-- Rework the [`src`](/src/) directory.
+- **Use different APIs**.
+  - Since starting this project, the [Old School RuneScape Wiki](https://oldschool.runescape.wiki/w/RuneScape:Real-time_Prices) has added API endpoints (or I just wasn't aware of them).
+  - The [`/mapping`](https://prices.runescape.wiki/api/v1/osrs/mapping) endpoint completely invalidates the way I gathered item details using my [`details`](/airflow/dags/details_pipeline.py) DAG.
+  - The [`/5m`](https://prices.runescape.wiki/api/v1/osrs/5m) endpoint provides nearly real-time price data, including average high and low prices.
+- **Rework the [`src`](/src/) directory**.
   - Before deciding to add Airflow late in development, the project was a command-line tool.
     - The remnants of this can be seen in [`main.py`](main.py) and in the Airflow DAGs.
   - I would refactor the source code to be more suited for Airflow.
   - This is a good example of over-engineering, but it did help me exercise my general software engineering skills.
-- Utilize Airflow DAGs more effectively.
+- **Utilize Airflow DAGs more effectively**.
   - Currently, there are only two DAGs: one to ingest item details and another to ingest prices.
   - These DAGs could each be split into multiple DAGs to improve robustness and transparency.
   - Extracted data could be stored in Cloud Storage and BigQuery in parallel instead of sequentially.
-- Use tables instead of views for the gold layer.
+- **Use tables instead of views for the gold layer**.
   - Currently, the gold layer entities created using dbt are views, but these would traditionally be tables.
   - I chose to use views to avoid extraneous storage costs, but with time it became clear this wasn't a concern.
 
