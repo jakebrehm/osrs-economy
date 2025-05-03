@@ -55,6 +55,7 @@
         "name": "prices",
         "comment": "Bronze table containing item prices.",
         "columnIds": [
+          "hDaoWC7vI9fJMrZwxdFrZ",
           "44H4lXThqsBLL1OfOKB8h",
           "jUcHUtoVHaM0Mg86Masi1",
           "zK_TTA6b7cmme4Mi8K59B",
@@ -63,6 +64,7 @@
         ],
         "seqColumnIds": [
           "xnIym0wLpw0E9SrJHiAyo",
+          "hDaoWC7vI9fJMrZwxdFrZ",
           "44H4lXThqsBLL1OfOKB8h",
           "jUcHUtoVHaM0Mg86Masi1",
           "zK_TTA6b7cmme4Mi8K59B",
@@ -78,7 +80,7 @@
           "color": "#CD7F32"
         },
         "meta": {
-          "updateAt": 1746012005773,
+          "updateAt": 1746310019411,
           "createAt": 1746009389017
         }
       },
@@ -1009,6 +1011,26 @@
           "updateAt": 1746010916139,
           "createAt": 1746010904855
         }
+      },
+      "hDaoWC7vI9fJMrZwxdFrZ": {
+        "id": "hDaoWC7vI9fJMrZwxdFrZ",
+        "tableId": "sWA6Yb3Z6OdnAZRRe60wH",
+        "name": "uuid",
+        "comment": "",
+        "dataType": "VARCHAR",
+        "default": "",
+        "options": 10,
+        "ui": {
+          "keys": 1,
+          "widthName": 60,
+          "widthComment": 60,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1746310029562,
+          "createAt": 1746310017619
+        }
       }
     },
     "relationshipEntities": {
@@ -1657,6 +1679,16 @@
         "comment": 1746010908111,
         "dataType": 1746010916137,
         "name": 1746010914506
+      }
+    ],
+    "hDaoWC7vI9fJMrZwxdFrZ": [
+      "tableColumnEntities",
+      1746310017612,
+      -1,
+      {
+        "name": 1746310021821,
+        "dataType": 1746310025364,
+        "options(primaryKey)": 1746310029561
       }
     ]
   }
