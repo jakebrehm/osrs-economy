@@ -87,7 +87,7 @@ It is fairly barebones, since creating a beautiful report was not the primary go
 
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/report.png" alt="Report Screenshot" style="width: 70%;"/>
+<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/report.png" alt="Report Screenshot" style="width: 100%;"/>
 
 </div>
 
