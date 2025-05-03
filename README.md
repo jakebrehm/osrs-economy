@@ -8,7 +8,7 @@
 
 </div>
 
-<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/divider.png" alt="Divider" style="width: 100%;"/>
+<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/table-of-contents.png" alt="Table of Contents Section" style="width: 100%;"/>
 
 - [Introduction](#introduction)
 - [Data Sources](#data-sources)
@@ -17,7 +17,7 @@
 - [Acknowledgements](#acknowledgements)
 - [Authors](#authors)
 
-<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/divider.png" alt="Divider" style="width: 100%;"/>
+<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/project-overview.png" alt="Project Overview Section" style="width: 100%;"/>
 
 ## Introduction
 
@@ -91,6 +91,8 @@ It is fairly barebones, since creating a beautiful report was not the primary go
 
 </div>
 
+<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/closing-thoughts.png" alt="Closing Thoughts Section" style="width: 100%;"/>
+
 ## Improvements
 
 A project is never truly _done_ since someone who cares about their work will always see little things that could have been done differently. In my case, I got the output I initially wanted, so I simply wanted to move onto my next project.
@@ -113,8 +115,6 @@ If I had to start this project from scratch or rework it in the future, I would 
 - **Use tables instead of views for the gold layer**.
   - Currently, the gold layer entities created using dbt are views, but these would traditionally be tables.
   - I chose to use views to avoid extraneous storage costs, but with time it became clear this wasn't a concern.
-
-<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/divider.png" alt="Divider" style="width: 100%;"/>
 
 ## Acknowledgements
 
