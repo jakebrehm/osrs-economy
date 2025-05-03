@@ -8,6 +8,8 @@
 
 </div>
 
+<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/divider.png" alt="Divider" style="width: 100%; padding-top: 20px; padding-bottom: 20px;"/>
+
 <img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/table-of-contents.png" alt="Table of Contents Section" style="width: 100%;"/>
 
 - [Introduction](#introduction)
@@ -90,6 +92,8 @@ It is fairly barebones, since creating a beautiful report was not the primary go
 <img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/report.png" alt="Report Screenshot" style="width: 100%;"/>
 
 </div>
+
+<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/divider.png" alt="Divider" style="width: 100%; padding-top: 20px; padding-bottom: 20px;"/>
 
 <img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/closing-thoughts.png" alt="Closing Thoughts Section" style="width: 100%;"/>
 
