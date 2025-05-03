@@ -24,7 +24,10 @@ notebooks/
 
 # Terraform
 cfg/gcp-credentials.json
-terraform/*
+terraform/.terraform
+terraform/variables/*
+terraform/terraform.tfstate*
+!terraform/variables/.gitkeep
 !terraform/schemas
 !terraform/main.tf
 !terraform/variables.tf
