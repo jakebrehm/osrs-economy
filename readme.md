@@ -1,10 +1,6 @@
 <div align="center">
 
-<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/banner.png" alt="OSRS Economy Banner" style="width: 100%; padding-bottom: 10px;"/>
-
-<br>
-
-<p>An <strong>ELT pipeline</strong> to monitor the economy of <em>Old School RuneScape</em>.</p>
+<img src="https://raw.githubusercontent.com/jakebrehm/osrs-economy/master/img/banner.png" alt="OSRS Economy Banner" style="width: 100%;"/>
 
 </div>
 
